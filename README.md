@@ -14,7 +14,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 
 ## **Game Entities**
 
-### **1. Blocks**
+### **1. Models.Blocks**
 
 #### ***Void block***
 - nothing can be placed inside of a void
@@ -28,12 +28,12 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 #### ***Forest Block***
 - it can be a strategic block in **BATTLES** between kingdom **UNITS**
 - if absorbed into the kingdom, it would generate **FOOD** for the kingdom
-- if absorbed into the kingdom, a **STRUCTURE** can be built on top of it(at the cost of ***losing*** the forest)
+- if absorbed into the kingdom, a **STRUCTURE** can be built on top of it(at the unitCost of ***losing*** the forest)
 
 > if **UNITS** are starting **ATTACK** from the **FOREST**, they have an advantage of increased **ATTACK POWER**
 > if **UNITS** are defending an **ATTACK** while stationed in a **FOREST**, they have an advantage of increased **ATTACK POWER**
 
-### **2. Structures**
+### **2. Models.Structures.Structures**
 - each **STRUCTURE** has a **DURABILITY** of __n__ **HEALTH**
 - each **STRUCTURE** has a **MAINTENANCE COST** of __n__ **GOLD**
 - each **STRUCTURE** has a **LEVEL** and a **MAX LEVEL**
@@ -52,7 +52,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 - FOOD (examlpe: 5 FOOD/TURN)
 - UNIT SPACE (examlpe: 5 UNIT SPACE)
 
-#### ***Barrack***
+#### ***Models.Events.Events.Barrack***
 - it can produce **UNIT**
 - it produces more **UNIT SPACE** as it **LEVEL UP**
 - each kingdom can have a maximum number of **BARRACKS**
@@ -67,7 +67,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 
 > each level up gives extra **UNIT SPACE**
 > each level up adds to **STRUCTURES's DURABILITY**
-> building new **BARRACK** cost more **BUIDING COST** than the previous one (example: PREVIOUS_BUILDING_COST + 5) 
+> building new **BARRACK** unitCost more **BUIDING COST** than the previous one (example: PREVIOUS_BUILDING_COST + 5) 
 
 #### ***Farm***
 - it can produce **FOOD**
@@ -86,7 +86,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 > each level up adds to **STRUCTURE's DURABILITY**
 > building new **FARM** costs more **GOLD** than the previous one (example: PREVIOUS_BUILDING_COST + 5) 
 
-#### ***Market***
+#### ***Models.Shop.Shop.Market***
 - it can produce **GOLD**
 - it produces more **GOLD** as it **LEVEL UP**
 - each kingdom can have a maximum number of **MARKETS**
@@ -101,9 +101,9 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 
 > each level up gives an extra **GOLD**
 > each level up adds to **STRUCTURES's DURABILITY**
-> building new **MARKET** cost more **GOLD** than the previous one (example: PREVIOUS_BUILDING_COST + 5)
+> building new **MARKET** unitCost more **GOLD** than the previous one (example: PREVIOUS_BUILDING_COST + 5)
 
-#### ***Tower***
+#### ***Models.Structures.Tower***
 - it defends it's neighboring kingdom blocks
 - lower level **UNITS** cannot get passed the **TOWER**'s blockade
 
@@ -117,7 +117,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 - BUILDING COST (examlpe: 5 GOLD)
 - LEVEL UP COST (examlpe: 5 GOLD -> 10 GOLD)
 
-### **3. Units**
+### **3. Models.Units.Units**
 - each **UNIT** has a **HIT POINT** of __n__ **HEALTH**
 - each **UNIT** has a **MOVEMENT RANGE** of __n__ **BLOCKS**
 - each **UNIT** has an **ATTACK POWER** of __n__ **DAMAGE**
@@ -129,10 +129,10 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 #### **Unit Hierarchy**
 - two **UNIT** of the __same__ **RANK** can be merged to a higher **HIERARCHY**
 
-1. Peasant
-2. Spearman
-3. Swordman
-4. Knight
+1. Models.Units.Peasant
+2. Models.Units.Spearman
+3. Models.Units.Swordman
+4. Models.Units.Knight
 
 > you can give each unit, it's own characteristic
 
@@ -159,7 +159,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
   - Click/select blocks to build, upgrade, or deploy units
   - Display real-time game stats (e.g., gold, food, unit capacity)
   - Highlight valid actions (e.g., movable units, buildable structures)
-- Animations or visual feedback (e.g., attack effects, unit movement) are encouraged but optional.
+- Animations or visual feedback (e.g., attack effects, unit movementrange) are encouraged but optional.
 
 ### **Turn-Based System**
 - The game must support 2 to 4 players in a turn-based format.
