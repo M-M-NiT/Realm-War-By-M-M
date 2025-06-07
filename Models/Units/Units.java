@@ -8,6 +8,15 @@ public abstract  class Units {
     private int unitCost;
     private int food;
     private int space;
+    public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space) {
+        this.unitHealth = unitHealth;
+        this.movementRange = movementRange;
+        this.attackPower = attackPower;
+        this.attackRange = attackRange;
+        this.unitCost = unitCost;
+        this.food = food;
+        this.space = space;
+    }
     public int getUnitHealth() {
         return unitHealth;
     }
