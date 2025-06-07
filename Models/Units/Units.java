@@ -1,6 +1,6 @@
 package Models.Units;
 
-public abstract  class Units {
+public class Units {
     private int unitHealth;
     private int movementRange;
     private int attackPower;
@@ -8,7 +8,16 @@ public abstract  class Units {
     private int unitCost;
     private int food;
     private int space;
-    //.
+    private int playerNum;
+    public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space,int playerNum) {
+        this.unitHealth = unitHealth;
+        this.movementRange = movementRange;
+        this.attackRange= attackRange;
+        this.unitCost = unitCost;
+        this.food = food;
+        this.space = space;
+        this.playerNum = playerNum;
+    }
     public int getUnitHealth() {
         return unitHealth;
     }
