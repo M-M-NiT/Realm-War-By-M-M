@@ -3,16 +3,15 @@ package Models.Players;
 import Models.Blocks.Blocks;
 import Models.Blocks.EmptyBlock;
 import Models.Blocks.ForestBlock;
-import Models.Game.Game;
 import Models.Structures.TownHall;
 
 import java.util.Random;
 
 public class Board {
-   Blocks[][] blocks = new Blocks[10][10];
+   public Blocks[][] blocks = new Blocks[12][12];
    public void run() {
-      for (int p = 0; p < 10; p++) {
-         for (int j = 0; j < 10; j++) {
+      for (int p = 0; p < 12; p++) {
+         for (int j = 0; j < 12; j++) {
             blocks[p][j] = new EmptyBlock();
          }
       }
@@ -21,16 +20,11 @@ public class Board {
       int temp = rand.nextInt(20,30) ;
       for (int p = 0; p < temp; p++) {
          if(blocks[rand.nextInt(10)][rand.nextInt(10)] instanceof EmptyBlock){
-            blocks[rand.nextInt(10)][rand.nextInt(10)] = new ForestBlock();
+            blocks[rand.nextInt(1,11)][rand.nextInt(1,11)] = new ForestBlock();
             }
          else{ p--;
          }
       }
-      }
-
-      Game game = new Game();
-      public void initialize(int player) {
-         blocks[0][0]=game.player1.townHall;
       }
 
       //      TownHall townHall1 = new TownHall() ;
@@ -42,4 +36,4 @@ public class Board {
    }
 
 
-}
+
