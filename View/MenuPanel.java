@@ -9,7 +9,7 @@ public class MenuPanel {
     private JPanel userpanel;
     public MenuPanel() {
         frame = new JFrame("Realm-War");
-        panel = new JPanel(new GridLayout(10,10,5,5));
+        panel = new JPanel(new GridLayout(12,12,5,5));
         userpanel = new JPanel(new BorderLayout());
     createmap();
     }
@@ -25,12 +25,21 @@ public void createmap(){
     frame.setLocationRelativeTo(null);
     frame.setResizable(true);
     JLabel label = new JLabel("userpanel");
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 144; i++){
+            int row = i/12;
+            int col = i%12;
             JButton button = new JButton();
-            button.setPreferredSize(new Dimension(10,10));
-            button.setBackground(Color.GRAY);
+            button.setPreferredSize(new Dimension(5,5));
+            if(col == 0 || col == 11 || row == 0 || row == 11){
+                button.setBackground(Color.BLACK);
+            }else {
+                button.setBackground(Color.GRAY);
+            }
+
+
             panel.add(button);
         }
+
         userpanel.add(label);
         userpanel.setPreferredSize(new Dimension(100,100));
         frame.add(panel, BorderLayout.CENTER);
