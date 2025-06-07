@@ -3,7 +3,10 @@ package Models.Players;
 import Models.Blocks.Blocks;
 import Models.Blocks.EmptyBlock;
 import Models.Blocks.ForestBlock;
+import Models.Game.Player;
+import Models.Structures.Structures;
 import Models.Structures.TownHall;
+import Models.Units.Units;
 
 import java.util.Random;
 
@@ -27,13 +30,17 @@ public class Board {
       }
       }
 
-      //      TownHall townHall1 = new TownHall() ;
-//      TownHall townHall2 = new TownHall() ;
-//      blocks[0][0].setStructure(townHall1);
-//      blocks[9][9].setStructure(townHall2);
+
+      public void setTownHall() {
+            TownHall townHall = new TownHall();
+            TownHall townHall2 = new TownHall();
+            blocks[1][1].setStructure(townHall);
+            blocks[10][10].setStructure(townHall2);
+         }
+      }
 
 
-   }
+
 
 
 
