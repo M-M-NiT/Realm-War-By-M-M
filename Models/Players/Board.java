@@ -3,6 +3,7 @@ package Models.Players;
 import Models.Blocks.Blocks;
 import Models.Blocks.EmptyBlock;
 import Models.Blocks.ForestBlock;
+import Models.Game.Game;
 import Models.Structures.TownHall;
 
 import java.util.Random;
@@ -25,6 +26,11 @@ public class Board {
          else{ p--;
          }
       }
+      }
+
+      Game game = new Game();
+      public void initialize(int player) {
+         blocks[0][0]=game.player1.townHall;
       }
 
       //      TownHall townHall1 = new TownHall() ;
