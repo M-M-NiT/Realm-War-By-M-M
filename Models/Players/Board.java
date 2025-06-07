@@ -30,7 +30,6 @@ public class Board {
 
       Game game = new Game();
       public void initialize(int player) {
-         blocks[0][0]=game.player1.townHall;
       }
 
       //      TownHall townHall1 = new TownHall() ;
