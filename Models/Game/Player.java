@@ -1,4 +1,4 @@
-package Models.Players;
+package Models.Game;
 
 public class Player {
     public int playerGold = 0;
