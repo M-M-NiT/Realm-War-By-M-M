@@ -1,12 +1,9 @@
-package Models.Players;
+package Models.Game;
 
 import Models.Blocks.Blocks;
 import Models.Blocks.EmptyBlock;
 import Models.Blocks.ForestBlock;
-import Models.Game.Player;
-import Models.Structures.Structures;
 import Models.Structures.TownHall;
-import Models.Units.Units;
 
 import java.util.Random;
 
@@ -29,7 +26,6 @@ public class Board {
          }
       }
       }
-
 
       public void setTownHall() {
             TownHall townHall = new TownHall();

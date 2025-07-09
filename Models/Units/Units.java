@@ -1,14 +1,14 @@
 package Models.Units;
 
 public class Units {
-    private int unitHealth;
-    private int movementRange;
-    private int attackPower;
-    private int attackRange;
-    private int unitCost;
-    private int food;
-    private int space;
-    private int playerNum;
+    protected int unitHealth;
+    protected int movementRange;
+    protected int attackPower;
+    protected int attackRange;
+    protected int unitCost;
+    protected int food;
+    protected int space;
+    protected int playerNum;
     public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space,int playerNum) {
         this.unitHealth = unitHealth;
         this.movementRange = movementRange;
