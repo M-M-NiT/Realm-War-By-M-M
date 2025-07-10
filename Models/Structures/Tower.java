@@ -2,7 +2,7 @@ package Models.Structures;
 
 public class Tower extends Structures {
     public Tower() {
-        super(175,0,0,1,3,50,0,0,50) ;
+        super(175,1,3,50,0,7,50) ;
     }
 
     @Override
@@ -18,5 +18,8 @@ public class Tower extends Structures {
     @Override
     public String getType() {
         return "Tower";
+    }
+    public void defence(){
+
     }
 }

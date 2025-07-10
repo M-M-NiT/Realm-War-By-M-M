@@ -7,6 +7,7 @@ import Models.Structures.TownHall;
 import Models.Units.Units;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player{
@@ -18,10 +19,11 @@ public class Player{
     private List<Blocks> ownedBlocks;
 
     public Player(String name){
+        ownedStructures = new ArrayList<Structures>();
         this.name = name;
         this.gold = 100;
         this.food = 100;
-        // ** Starting gold/food values should update **
+        // ** Starting gold/unitfood values should update **
     }
     public String getName(){
         return name;
@@ -36,7 +38,7 @@ public class Player{
     public boolean hasEnoughGold(int value){
         return gold >= value;
     }
-    //food related
+    //unitfood related
     private void increaseFood(int value){
         food += value;
     }
@@ -47,5 +49,7 @@ public class Player{
         return food >= value;
     }
 
-
+public void addStructure(Structures structure){
+        ownedStructures.add(structure);
+}
 }

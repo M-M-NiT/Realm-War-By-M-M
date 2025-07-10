@@ -4,7 +4,7 @@ import java.util.logging.Level;
 
 public class Barrack extends Structures {
     public Barrack(){
-        super(100,0,30,1,3,50,50,0,0) ;
+        super(100,1,3,50,2,10,0) ;
     }
 
     @Override
@@ -21,4 +21,12 @@ public class Barrack extends Structures {
     public String getType() {
         return "Barrack";
     }
+
+public void add_units(){
+
+
+}
+public void add_units_space(){
+
+}
 }

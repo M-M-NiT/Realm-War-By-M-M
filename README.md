@@ -157,7 +157,7 @@ Your mission? **Domainate Your Opponent's Kingdom Before They Dominate Yours!**
 - GUI should allow players to:
   - View the game board and its blocks, structures, and units
   - Click/select blocks to build, upgrade, or deploy units
-  - Display real-time game stats (e.g., gold, food, unit capacity)
+  - Display real-time game stats (e.g., gold, unitfood, unit capacity)
   - Highlight valid actions (e.g., movable units, buildable structures)
 - Animations or visual feedback (e.g., attack effects, unit movementrange) are encouraged but optional.
 

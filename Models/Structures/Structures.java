@@ -4,8 +4,6 @@ import Models.Game.Player;
 
     public abstract class Structures {
     protected int Health;
-    protected int goldProduction;
-    protected int foodProduction;
     protected int Level;
     protected int maxLevel;
     protected int buildingCost;
@@ -13,11 +11,9 @@ import Models.Game.Player;
     protected int maintenanceCost;
     protected int damage;
 
-    public Structures(int structureHealth, int goldProduction,int foodProduction, int structurelevel, int structuremaxlevel, int buildingCost ,int unitSpace ,int maintenanceCost ,int damage) {
+    public Structures(int structureHealth,  int structurelevel, int structuremaxlevel, int buildingCost ,int unitSpace ,int maintenanceCost ,int damage) {
 
     this.Health = structureHealth;
-    this.goldProduction = goldProduction;
-    this.foodProduction = foodProduction;
     this.Level = structurelevel;
     this.maxLevel = structuremaxlevel;
     this.buildingCost = buildingCost;
@@ -38,13 +34,7 @@ import Models.Game.Player;
         this.Health = structureHealth;
     }
 
-    public int getGoldProduction() {
-        return goldProduction;
-    }
 
-    public void setGoldProduction(int goldProduction) {
-        this.goldProduction = goldProduction;
-    }
 
     public int getLevel() {
         return Level;
@@ -61,12 +51,10 @@ import Models.Game.Player;
     public void setMaxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
     }
+public void food_producing(){
 
-    public int getFoodProduction() {
-        return foodProduction;
-    }
-
-    public void setFoodProduction(int foodProduction) {
-        this.foodProduction = foodProduction;
-    }
 }
+public void gold_mining(){
+
+}
+        }

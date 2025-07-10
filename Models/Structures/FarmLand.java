@@ -2,7 +2,7 @@ package Models.Structures;
 
 public class FarmLand extends Structures {
     public FarmLand() {
-        super(50,0,30,1,3,50,50,0,0) ;
+        super(50,1,3,50,0,5,0) ;
     }
 
     @Override
@@ -11,12 +11,15 @@ public class FarmLand extends Structures {
             Level++;
             //lower parts should change
             Health += 1;
-            foodProduction += 1;
+
         }
     }
 
     @Override
     public String getType() {
         return "FarmLand";
+    }
+    public void food_producing(){
+
     }
 }

@@ -6,7 +6,7 @@ public class Units {
     protected int attackPower;
     protected int attackRange;
     protected int unitCost;
-    protected int food;
+    protected int unitfood;
     protected int space;
     protected int playerNum;
     public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space,int playerNum) {
@@ -14,7 +14,7 @@ public class Units {
         this.movementRange = movementRange;
         this.attackRange= attackRange;
         this.unitCost = unitCost;
-        this.food = food;
+        this.unitfood = food;
         this.space = space;
         this.playerNum = playerNum;
     }
@@ -58,12 +58,12 @@ public class Units {
         this.unitCost = unitCost;
     }
 
-    public int getFood() {
-        return food;
+    public int getUnitfood() {
+        return unitfood;
     }
 
-    public void setFood(int food) {
-        this.food = food;
+    public void setUnitfood(int unitfood) {
+        this.unitfood = unitfood;
     }
 
     public int getSpace() {
@@ -72,5 +72,8 @@ public class Units {
 
     public void setSpace(int space) {
         this.space = space;
+    }
+    public void attack(){
+
     }
 }
