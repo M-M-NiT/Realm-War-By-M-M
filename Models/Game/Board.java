@@ -23,10 +23,14 @@ public class Board {
 //      grid[1][1].setStructure(townHall);
 //      grid[10][10].setStructure(townHall2);
 //   }
-public void create_blocks(){for (int j = 0; j< 12; j++) {
+public void create_blocks(){
+
+   for (int j = 0; j< 12; j++) {
    int i = 0;
    grid[i][j] =  new VoidBlock(i, j);
 }
+
+
    for (int j = 0; j < 12; j++) {
       int i = 11;
       grid[i][j] =  new VoidBlock(i, j);
@@ -39,28 +43,38 @@ public void create_blocks(){for (int j = 0; j< 12; j++) {
       int j=11;
       grid[i][j] =   new VoidBlock(i, j);
    }
-   {
-
-      Random rand = new Random();
-      int temp = rand.nextInt(20, 30);
-      for (int p = 0; p < temp; p++) {
-         int i = rand.nextInt(1, 11);
-         int j = rand.nextInt(1, 11);
-         if (!((i == 1 && j == 1) || (i == 10 && j == 10))) {
-            grid[i][j] = new ForestBlock(i, j);
-         }
+   Random rand = new Random();
+   int temp1 = new Random().nextInt(2,5);
+   for (int p = 0; p < temp1; p++) {
+      int i = rand.nextInt(1, 11);
+      int j = rand.nextInt(1, 11);
+      if (!((i == 1 && j == 1) || (i == 10 && j == 10))) {
+         grid[i][j] = new VoidBlock(i, j);
       }
-      for (int i = 1; i < 11; i++) {
-         for (int j = 1; j < 11; j++) {
-            if (!(grid[i][j] instanceof ForestBlock)) {
-               grid[i][j] = new EmptyBlock(i, j);
-            }
-
-
-         }
-      }
-
    }
+         int temp = rand.nextInt(20, 30);
+         for (int p = 0; p < temp; p++) {
+            int i = rand.nextInt(1, 11);
+            int j = rand.nextInt(1, 11);
+            if (!((i == 1 && j == 1) || (i == 10 && j == 10))) {
+               if (!(grid[i][j] instanceof VoidBlock) ){
+                  grid[i][j] = new ForestBlock(i, j);
+               }
+            }
+         }
+         for (int i = 1; i < 11; i++) {
+            for (int j = 1; j < 11; j++) {
+               if (!(grid[i][j] instanceof VoidBlock)){
+                  if (!(grid[i][j] instanceof ForestBlock)) {
+                     grid[i][j] = new EmptyBlock(i, j);
+                  }
+               }
+
+
+            }
+         }
+
+
 }
    public void show(){
       menu.createmap();
