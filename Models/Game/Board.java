@@ -48,7 +48,8 @@ public void create_blocks(){
    for (int p = 0; p < temp1; p++) {
       int i = rand.nextInt(1, 11);
       int j = rand.nextInt(1, 11);
-      if (!((i == 1 && j == 1) || (i == 10 && j == 10))) {
+      if (!((i == 1 && j == 1) || (i == 10 && j == 10) || (i == 1 && j == 2) || (i==2 && j == 2) || (i==2 && j==1) ||
+              (i==9 && j==10 ) || (i==9 && j==9) || i==10 && j==9)) {
          grid[i][j] = new VoidBlock(i, j);
       }
    }
@@ -56,7 +57,8 @@ public void create_blocks(){
          for (int p = 0; p < temp; p++) {
             int i = rand.nextInt(1, 11);
             int j = rand.nextInt(1, 11);
-            if (!((i == 1 && j == 1) || (i == 10 && j == 10))) {
+            if (!((i == 1 && j == 1) || (i == 10 && j == 10) || (i == 1 && j == 2) || (i==2 && j == 2) || (i==2 && j==1) ||
+                    (i==9 && j==10 ) || (i==9 && j==9) || i==10 && j==9)) {
                if (!(grid[i][j] instanceof VoidBlock) ){
                   grid[i][j] = new ForestBlock(i, j);
                }
