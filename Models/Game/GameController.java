@@ -1,7 +1,10 @@
 package Models.Game;
 
 import Models.Blocks.Blocks;
+import Models.Structures.Structures;
+import Models.Structures.Tower;
 import Models.Units.Units;
+import View.MenuPanel;
 
 import java.util.ArrayList;
 
@@ -32,25 +35,41 @@ public class GameController {
     }
 
     private void collectResources(Player player){
-
+        player.increaseGold();
+        player.increaseFood();
     }
 
     private void payMaintenance(Player player){
-        int totalfood = 0;
+        //Food Maintenance
         int requiredfood = 0;
-
-        int requiredgold = 0;
-
-        totalfood = player.getFood();
+        int totalfood = player.getFood();
 
         ArrayList<Units> units = new ArrayList<>(player.getUnitsList(player));
         for (Units unit : units){
             requiredfood += unit.getUnitfood();
         }
         if (totalfood < requiredfood){
-
+            ArrayList<Units> remainingUnits = new ArrayList<>();
+            int currentFood = totalfood;
+            for (Units unit : units){
+                if(currentFood > unit.getUnitfood()){}
+                currentFood -= unit.getUnitfood();
+                remainingUnits.add(unit);
+            }
+            player.setUnitsList(player, remainingUnits);
+        }
+        else { player.setFood(totalfood - requiredfood);
         }
 
+        //Gold Maintenance
+        int requiredGold = 0;
+
+        for(Blocks block : player.getOwnedBlocks()){
+            Structures structure = block.getStructure();
+            requiredGold += structure.getMaintenanceCost();
+            //needs update
+        }
+        player.setGold(player.getGold() - requiredGold);
     }
 
     private void allowPlayerAction(Player player){
@@ -62,7 +81,11 @@ public class GameController {
     }
 
     private void applySpecialEffects(Player player){
-
+        ArrayList<Units> units = new ArrayList<>(player.getUnitsList(player));
+        for (Units unit : units){
+            unit.getDamageAmplification(board);
+            // check getDamageAmplification in Unit class
+        }
     }
 
 }

@@ -1,5 +1,9 @@
 package Models.Units;
 
+import Models.Blocks.Blocks;
+import Models.Blocks.ForestBlock;
+import Models.Game.Board;
+
 public class Units {
     protected int unitHealth;
     protected int movementRange;
@@ -19,6 +23,9 @@ public class Units {
         this.space = space;
         this.playerNum = playerNum;
     }
+
+    // NEED X,Y VALUE FOR UNITS;
+
     public int getUnitHealth() {
         return unitHealth;
     }
@@ -78,4 +85,14 @@ public class Units {
     public void attack(){
 
     }
+
+    public int getDamageAmplification(Board board) {
+        Blocks block = board.getBlock(0,0);
+        // **Need to add x,y values to units to multiply their damage if on forest block**
+        if (block instanceof ForestBlock) {
+            return (int) (this.getAttackPower() * 1.1); // Multiply value should update (exp : 1.1)
+        }
+        return this.getAttackPower();
+    }
+
 }
