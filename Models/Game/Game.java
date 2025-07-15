@@ -6,12 +6,13 @@ import java.util.List;
 public class Game {
     private static Game instance ;
     protected List<Player>  players;
+    private Board board;
     public Game(){
         players = new ArrayList<Player>();
         players.add(new Player("Player1"));
         players.add(new Player("Player2"));
     }
-    public  static void main(String[] args) {
+    public static void main(String[] args) {
         Board board = new Board();
         board.create_blocks();
         board.show();
@@ -22,8 +23,13 @@ public class Game {
         }
         return instance;
     }
-public Player getPlayer(int index){
+
+        public Board getBoard(){
+        return board;
+        }
+
+    public Player getPlayer(int index){
         return players.get(index);
-}
+    }
 
 }

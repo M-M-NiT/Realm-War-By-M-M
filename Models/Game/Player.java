@@ -49,7 +49,11 @@ public class Player{
         return food >= value;
     }
 
-public void addStructure(Structures structure){
+    public void addStructure(Structures structure){
         ownedStructures.add(structure);
-}
+    }
+
+    public List<Units> getUnitsList(Player player){
+        return ownedUnits;
+    }
 }

@@ -12,24 +12,15 @@ import java.util.Random;
 public class Board {
    public MenuPanel menu = new MenuPanel();
    public Blocks s = new Blocks(1, 0);
-   public Blocks[][] grid = new Blocks[12][12];
+   public static Blocks[][] grid = new Blocks[12][12];
+   public static boolean player1Won = true;
 
-
-
-//
-//   public void setTownHall() {
-//      TownHall townHall = new TownHall();
-//      TownHall townHall2 = new TownHall();
-//      grid[1][1].setStructure(townHall);
-//      grid[10][10].setStructure(townHall2);
-//   }
 public void create_blocks(){
 
    for (int j = 0; j< 12; j++) {
    int i = 0;
    grid[i][j] =  new VoidBlock(i, j);
 }
-
 
    for (int j = 0; j < 12; j++) {
       int i = 11;
@@ -96,42 +87,64 @@ public void create_blocks(){
       }
    }
 
-public void build_TownHall(){
-   TownHall townHall_Player1 = new TownHall();
-   TownHall townHall_Player2 = new TownHall();
-   grid[1][1].setStructure(townHall_Player1);
-   grid[10][10].setStructure(townHall_Player2);
-   Game.getInstance().getPlayer(0).addStructure(townHall_Player1);
-   Game.getInstance().getPlayer(1).addStructure(townHall_Player2);
-}
+   public void build_TownHall(){
+      TownHall townHall_Player1 = new TownHall();
+      TownHall townHall_Player2 = new TownHall();
+      grid[1][1].setStructure(townHall_Player1);
+      grid[10][10].setStructure(townHall_Player2);
+      Game.getInstance().getPlayer(0).addStructure(townHall_Player1);
+      Game.getInstance().getPlayer(1).addStructure(townHall_Player2);
+   }
    //index[0] == player 1
    //index[1] == player 2
 
-public void build_Barrack(int i, int j,int index){
-   Barrack barrack = new Barrack();
-   grid[i][j].setStructure(barrack);
-   Game.getInstance().getPlayer(index).addStructure(barrack);
+   public void build_Barrack(int i, int j,int index){
+      Barrack barrack = new Barrack();
+      grid[i][j].setStructure(barrack);
+      Game.getInstance().getPlayer(index).addStructure(barrack);
 
-}
-public void build_Farmland(int i, int j,int index){
-   FarmLand farmLand = new FarmLand();
-   grid[i][j].setStructure(farmLand);
-   Game.getInstance().getPlayer(index).addStructure(farmLand);
+   }
+   public void build_Farmland(int i, int j,int index){
+      FarmLand farmLand = new FarmLand();
+      grid[i][j].setStructure(farmLand);
+      Game.getInstance().getPlayer(index).addStructure(farmLand);
 
-}
-public void build_GoldMine(int i, int j,int index){
-   GoldMine goldMine = new GoldMine();
-   grid[i][j].setStructure(goldMine);
-   Game.getInstance().getPlayer(index).addStructure(goldMine);
+   }
+   public void build_GoldMine(int i, int j,int index){
+      GoldMine goldMine = new GoldMine();
+      grid[i][j].setStructure(goldMine);
+      Game.getInstance().getPlayer(index).addStructure(goldMine);
 
 
-}
-public void build_Tower(int i, int j,int index){
-   Tower tower = new Tower();
-   grid[i][j].setStructure(tower);
-   Game.getInstance().getPlayer(index).addStructure(tower);
+   }
+   public void build_Tower(int i, int j,int index){
+      Tower tower = new Tower();
+      grid[i][j].setStructure(tower);
+      Game.getInstance().getPlayer(index).addStructure(tower);
 
-}
+   }
+
+   public Blocks getBlock(int x, int y) {
+      if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length) {
+         return grid[x][y];
+      }
+      return null;
+   }
+
+   public static boolean isGameOver(){
+      Board board = Game.getInstance().getBoard();
+      Blocks block1 = board.getBlock(1,1);
+      Blocks block2 = board.getBlock(10,10);
+      if(!(block1.getStructure() instanceof TownHall)){
+         player1Won = false;
+         return true;
+      }
+      if(block2.getStructure() instanceof TownHall){
+         player1Won = true;
+         return true;
+      }
+      return false;
+   }
 }
 
 

@@ -12,6 +12,7 @@ public class Units {
     public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space,int playerNum) {
         this.unitHealth = unitHealth;
         this.movementRange = movementRange;
+        this.attackPower = attackPower;
         this.attackRange= attackRange;
         this.unitCost = unitCost;
         this.unitfood = food;
@@ -73,6 +74,7 @@ public class Units {
     public void setSpace(int space) {
         this.space = space;
     }
+
     public void attack(){
 
     }
