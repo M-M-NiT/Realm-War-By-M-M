@@ -22,6 +22,7 @@ public class Blocks {
 
 }
     private Structures structure;
+    private Units unit;
     public void setStructure(Structures structure) {
     this.structure = structure;
 }
@@ -29,6 +30,10 @@ public class Blocks {
 
         return structure;
 }
-
-
+public Units getUnit() {
+        return unit;
+}
+public void setUnit(Units unit) {
+        this.unit = unit;
+}
 }

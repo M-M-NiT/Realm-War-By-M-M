@@ -2,8 +2,13 @@ package View;
 
 //import Controller.Merge;
 
+import Models.Blocks.Blocks;
+import Models.Game.Board;
+import Models.Game.Game;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,13 +26,14 @@ public class MenuPanel {
     private GridBagConstraints actiongbc;
     private int timeLeft = 31;
     private Timer timer;
-    private Integer Block_Row =null;
-    private Integer Block_Col =null;
+    public Integer Block_Row =null;
+    public Integer Block_Col =null;
     String currentAction =null;
     String units_selected = null;
     String structure_selected = null;
     private JLabel textbox;
   public JButton[][] button = new JButton[12][12];
+  Board board = new Board();
 
 //
     public MenuPanel() {
@@ -106,8 +112,8 @@ gbc.weightx = 0.5;
 userpanel.add(actionpanel, gbc);
 
 
-
-information_menu("Ali",20,30);
+ShowOwnedBlocks();
+information_menu("Ali",Game.getInstance().getPlayer(0).getGold(),Game.getInstance().getPlayer(0).getFood());
 timer_menu();
 action_menu("This is for show actions in the Game");
 
@@ -252,6 +258,14 @@ public void action_menu(String action){
     JButton move_button = new JButton("Move");
     move_button.setPreferredSize(new Dimension(50, 50));
     move_button.setBackground(new Color(0,200,0));
+    move_button.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            currentAction = "move";
+            Block_Row = null;
+            Block_Col = null;
+            textbox.setText("Choose a Block : ");
+        }
+    });
     JButton levelup_button = new JButton("Level Up");
     levelup_button.setPreferredSize(new Dimension(50, 50));
     levelup_button.setBackground(Color.CYAN);
@@ -297,6 +311,7 @@ private void set_structures(int i , int j,String structurename){
                 Image scaledImage = p.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
                 ImageIcon p2 = new ImageIcon(scaledImage);
                 button[i][j].setIcon(p2);
+                board.build_Barrack(Block_Row,Block_Col,0);
                 resetActionPanel();
                 break;
             case "FarmLand":
@@ -304,6 +319,7 @@ private void set_structures(int i , int j,String structurename){
                 Image scaledImage1 = s.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
                 ImageIcon s2= new ImageIcon(scaledImage1);
                 button[i][j].setIcon(s2);
+                board.build_Farmland(Block_Row,Block_Col,0);
                 resetActionPanel();
                 break;
             case "GoldMine":
@@ -311,6 +327,7 @@ private void set_structures(int i , int j,String structurename){
                 Image scaledImage2 = w.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
                 ImageIcon w2 = new ImageIcon(scaledImage2);
                 button[i][j].setIcon(w2);
+                board.build_GoldMine(Block_Row,Block_Col,0);
                 resetActionPanel();
                 break;
             case "Tower":
@@ -318,6 +335,7 @@ private void set_structures(int i , int j,String structurename){
                 Image scaledImage3 = k.getImage().getScaledInstance(45,45,Image.SCALE_SMOOTH);
                 ImageIcon k2 = new ImageIcon(scaledImage3);
                 button[i][j].setIcon(k2);
+                board.build_Tower(Block_Row,Block_Col,0);
                 resetActionPanel();
                 break;
         }
@@ -330,6 +348,7 @@ private void set_units(int i , int j,String unitname){
                 Image scaledImage = p.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
                 ImageIcon p2 = new ImageIcon(scaledImage);
                 button[i][j].setIcon(p2);
+                board.addpeasant(Block_Row,Block_Col,0);
                 resetActionPanel();
                 break;
              case "Spearman":
@@ -337,6 +356,7 @@ private void set_units(int i , int j,String unitname){
                  Image scaledImage1 = s.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
                  ImageIcon s2= new ImageIcon(scaledImage1);
                  button[i][j].setIcon(s2);
+                 board.addSpearman(Block_Row,Block_Col,0);
                  resetActionPanel();
                  break;
              case "Swordman":
@@ -344,6 +364,7 @@ private void set_units(int i , int j,String unitname){
                  Image scaledImage2 = w.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
                  ImageIcon w2 = new ImageIcon(scaledImage2);
                  button[i][j].setIcon(w2);
+                 board.addSwordman(Block_Row,Block_Col,0);
                  resetActionPanel();
                  break;
              case "Knight":
@@ -351,6 +372,7 @@ private void set_units(int i , int j,String unitname){
                  Image scaledImage3 = k.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
                  ImageIcon k2 = new ImageIcon(scaledImage3);
                  button[i][j].setIcon(k2);
+                 board.addKnight(Block_Row,Block_Col,0);
                  resetActionPanel();
                  break;
         }
@@ -361,13 +383,36 @@ private void Choose_Block(int row , int col){
             Block_Row = row;
             Block_Col = col;
             set_units(row,col,units_selected);
+
+
         } else if ("build_structure".equals(currentAction)) {
             Block_Row = row;
             Block_Col = col;
             set_structures(row,col,structure_selected);
 
+
+        }else if("move".equals(currentAction)){
+            Block_Row = row;
+            Block_Col = col;
         }
 
+
+}
+public void ShowOwnedBlocks() {
+    int i;
+    int j;
+    for (Blocks blocks : Game.getInstance().getPlayer(0).getOwnedBlocks()) {
+        i = blocks.getBlock_row_address();
+        j = blocks.getBlock_col_address();
+
+        button[i][j].setBorder(new LineBorder(Color.BLUE,5));
+
+        for (Blocks block : Game.getInstance().getPlayer(1).getOwnedBlocks()) {
+            i = block.getBlock_row_address();
+            j = block.getBlock_col_address();
+            button[i][j].setBorder(new LineBorder(Color.RED,5));
+        }
+    }
 
 }
 

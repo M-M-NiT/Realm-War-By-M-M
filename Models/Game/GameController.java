@@ -19,7 +19,7 @@ public class GameController {
         board.create_blocks();
         board.show();
 
-        while(!(Board.isGameOver())){
+        while(!(board.isGameOver())){
             processTurn(game.getPlayer(currentPlayerIndex));
             currentPlayerIndex = (currentPlayerIndex + 1) % 2;
             //customized for 2 players / need update if more players
@@ -34,9 +34,11 @@ public class GameController {
         resolveDamage(player);
     }
 
-    private void collectResources(Player player){
+    public void collectResources(Player player){
         player.increaseGold();
         player.increaseFood();
+
+
     }
 
     private void payMaintenance(Player player){
@@ -44,7 +46,7 @@ public class GameController {
         int requiredfood = 0;
         int totalfood = player.getFood();
 
-        ArrayList<Units> units = new ArrayList<>(player.getUnitsList(player));
+        ArrayList<Units> units = new ArrayList<>(player.getUnitsList());
         for (Units unit : units){
             requiredfood += unit.getUnitfood();
         }
@@ -81,9 +83,12 @@ public class GameController {
     }
 
     private void applySpecialEffects(Player player){
-        ArrayList<Units> units = new ArrayList<>(player.getUnitsList(player));
+        MenuPanel menuPanel = new MenuPanel();
+        int i = menuPanel.Block_Row;
+        int j = menuPanel.Block_Col;
+        ArrayList<Units> units = new ArrayList<>(player.getUnitsList());
         for (Units unit : units){
-            unit.getDamageAmplification(board);
+            unit.getDamageAmplification(board,i,j);
             // check getDamageAmplification in Unit class
         }
     }

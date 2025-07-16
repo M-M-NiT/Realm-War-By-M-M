@@ -25,4 +25,7 @@ public void food_producing(){
 public void gold_mining(){
 
 }
+public boolean townhallisover(){
+        return Health == 0;
+}
 }

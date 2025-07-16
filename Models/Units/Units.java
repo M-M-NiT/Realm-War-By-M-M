@@ -86,8 +86,8 @@ public class Units {
 
     }
 
-    public int getDamageAmplification(Board board) {
-        Blocks block = board.getBlock(0,0);
+    public int getDamageAmplification(Board board,int i,int j) {
+        Blocks block = board.grid[i][j];
         // **Need to add x,y values to units to multiply their damage if on forest block**
         if (block instanceof ForestBlock) {
             return (int) (this.getAttackPower() * 1.1); // Multiply value should update (exp : 1.1)

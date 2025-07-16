@@ -20,6 +20,7 @@ public class Player{
 
     public Player(String name){
         ownedStructures = new ArrayList<Structures>();
+        ownedBlocks = new ArrayList<Blocks>();
         this.name = name;
         this.gold = 100;
         this.food = 100;
@@ -85,11 +86,11 @@ public class Player{
         ownedStructures.add(structure);
     }
 
-    public List<Units> getUnitsList(Player player){
+    public List<Units> getUnitsList(){
         return ownedUnits;
     }
 
-    public void setUnitsList(Player player, List<Units> unitsList){
+    public void setUnitsList( Player player,List<Units> unitsList){
         ownedUnits = unitsList;
     }
 
@@ -100,4 +101,11 @@ public class Player{
     public List<Blocks> getOwnedBlocks() {
         return ownedBlocks;
     }
+    public void addOwnedBlocks(Blocks block){
+
+        ownedBlocks.add(block);
+    }
+public void addUnits(Units unit){
+        ownedUnits.add(unit);
+}
 }

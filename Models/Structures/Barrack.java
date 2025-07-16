@@ -1,5 +1,11 @@
 package Models.Structures;
 
+import Models.Game.Game;
+import Models.Units.Peasant;
+import Models.Units.Units;
+
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class Barrack extends Structures {
@@ -21,11 +27,19 @@ public class Barrack extends Structures {
     public String getType() {
         return "Barrack";
     }
-
-public void add_units(){
-
-
+public boolean CanAddUnits(){
+        int count = 0;
+        for(Units units : Game.getInstance().getPlayer(0).getUnitsList()){
+            if(units != null){
+                count++;
+            }
+        }
+        return count <= unitSpace;
 }
+
+
+
+
 public void add_units_space(){
 
 }
