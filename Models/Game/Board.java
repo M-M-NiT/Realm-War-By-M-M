@@ -13,7 +13,7 @@ import java.util.Random;
 public class Board {
    public TownHall townHall_Player1 = new TownHall();
   public TownHall townHall_Player2 = new TownHall();
-   public MenuPanel menu = new MenuPanel();
+
    public Blocks s = new Blocks(1, 0);
    public  Blocks[][] grid = new Blocks[12][12];
    public static boolean player1Won = true;
@@ -73,7 +73,7 @@ public void create_blocks(){
     SetDefaultBlocks();
 }
    public void show(){
-
+      MenuPanel menu = new MenuPanel();
 
       menu.createmap();
 
