@@ -8,4 +8,8 @@ public class Knight extends Units {
 public void attack(){
 
 }
+    @Override
+    public String getType(){
+        return "Knight";
+    }
 }

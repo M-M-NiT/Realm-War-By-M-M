@@ -7,4 +7,8 @@ public class Peasant extends Units {
     public void attack(){
 
     }
+    @Override
+    public String getType(){
+        return "Peasant";
+    }
 }

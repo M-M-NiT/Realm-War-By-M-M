@@ -7,6 +7,7 @@ import Models.Units.Units;
 import View.MenuPanel;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public class GameController {
     private Game game;
@@ -37,8 +38,6 @@ public class GameController {
     public void collectResources(Player player){
         player.increaseGold();
         player.increaseFood();
-
-
     }
 
     private void payMaintenance(Player player){
@@ -75,11 +74,97 @@ public class GameController {
     }
 
     private void allowPlayerAction(Player player){
+        while(true){
+            String choice = "";
+            switch (choice){
+                case "addUnit" : Board.addUnit(0,0,currentPlayerIndex); break; //Shoud Update
 
+                case "buildStructure" : Board.addStructure(0,0,currentPlayerIndex ,player); break; //Should Update
+
+                case "upgradeStructure" :
+            }
+        }
     }
 
     private void resolveDamage(Player player){
+        for(Units unit : player.getUnitsList()){
+            int UnitX = unit.getX();
+            int UnitY = unit.getY();
+            int range = unit.getAttackRange();
+            int damage = unit.getAttackPower();
+            for(int dx = -range; dx <= range; dx++){
+                for(int dy = -range; dy <= range; dy++){
+                    if(Math.abs(dx) + Math.abs(dy) > range){
+                        continue;
+                    }
+                    int tx = UnitX + dx;
+                    int ty = UnitY + dy;
+                    if(!board.isInsideBoard(tx, ty)){
+                        continue;
+                    }
 
+                    Blocks block = board.getBlock(tx, ty);
+                    if(block == null){
+                        continue;
+                    }
+
+                    if(!(block.getStructure() == null)){
+                        Structures targetStructure = block.getStructure();
+                        if (!(targetStructure.getOwner() == player)){
+                            targetStructure.takeDamage(damage);
+                        }
+                        if(targetStructure.getHealth() <= 0){
+                            block.removeStructure();
+                        }
+                    }
+
+                    Units targetUnit = block.getUnit();
+                    if(!(targetUnit.getPlayerNum() == currentPlayerIndex)){
+                        targetUnit.takeDamage(damage);
+                    }
+                    if(targetUnit.getUnitHealth() <= 0){
+                        Blocks targetUnitBlock = new Blocks(tx, ty);
+                        targetUnitBlock.removeUnit();
+                    }
+                }
+            }
+        }
+        for(Structures structure : player.getOwnedStructures(player)){
+            if(!(structure instanceof Tower)){
+                continue;
+            }
+            int StructureX = structure.getX();
+            int StructureY = structure.getY();
+            int range = 3; //Set range of Towers / might need an update
+            int damage = structure.getDamage();
+
+            for(int dx = -range; dx <= range; dx++){
+                for(int dy = -range; dy <= range; dy++){
+                    if(Math.abs(dx) + Math.abs(dy) > range){
+                        continue;
+                    }
+                    int tx = StructureX + dx;
+                    int ty = StructureY + dy;
+
+                    if(!board.isInsideBoard(tx, ty)){
+                        continue;
+                    }
+
+                    Blocks block = board.getBlock(tx, ty);
+                    if(block == null || !block.hasUnit()){
+                        continue;
+                    }
+
+                    Units targetUnit = block.getUnit();
+                    if(!(targetUnit.getPlayerNum() == currentPlayerIndex)){
+                        targetUnit.takeDamage(damage);
+                    }
+                    if(targetUnit.getUnitHealth() <= 0){
+                        block.removeUnit();
+                    }
+                }
+            }
+        }
     }
 
     private void applySpecialEffects(Player player){

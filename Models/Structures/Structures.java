@@ -10,6 +10,9 @@ import Models.Game.Player;
     protected int unitSpace;
     protected int maintenanceCost;
     protected int damage;
+    protected Player player;
+    private int x;
+    private int y;
 
     public Structures(int structureHealth,  int structurelevel, int structuremaxlevel, int buildingCost ,int unitSpace ,int maintenanceCost ,int damage) {
 
@@ -59,5 +62,36 @@ import Models.Game.Player;
     }
     public int getMaintenanceCost() {
         return maintenanceCost;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public Player getOwner() {
+        return player;
+    }
+
+    public void takeDamage(int damage) {
+        this.Health -= damage;
+    }
+
+    public int getHealth() {
+        return Health;
+    }
+
+    public int getDamage() {
+        return damage;
     }
     }

@@ -4,7 +4,7 @@ import Models.Blocks.Blocks;
 import Models.Blocks.ForestBlock;
 import Models.Game.Board;
 
-public class Units {
+public abstract class Units {
     protected int unitHealth;
     protected int movementRange;
     protected int attackPower;
@@ -13,6 +13,10 @@ public class Units {
     protected int unitfood;
     protected int space;
     protected int playerNum;
+    private boolean hasMovedThisTurn = false;
+    private int x;
+    private int y;
+
     public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space,int playerNum) {
         this.unitHealth = unitHealth;
         this.movementRange = movementRange;
@@ -95,4 +99,37 @@ public class Units {
         return this.getAttackPower();
     }
 
+    public abstract String getType();
+
+    public boolean hasMovedThisTurn() {
+        return hasMovedThisTurn;
+    }
+
+    public void setHasMovedThisTurn(boolean moved) {
+        this.hasMovedThisTurn = moved;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getPlayerNum() {
+        return playerNum;
+    }
+
+    public void takeDamage(int damage) {
+        unitHealth -= damage;
+    }
 }

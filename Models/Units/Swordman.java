@@ -7,4 +7,9 @@ public class Swordman extends Units {
     public void attack(){
 
     }
+
+    @Override
+    public String getType() {
+        return "Swordman";
+    }
 }

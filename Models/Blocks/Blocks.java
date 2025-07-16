@@ -13,7 +13,8 @@ public class Blocks {
     public Blocks(int block_row_address, int block_col_address) {
     this.block_col_address = block_col_address;
     this.block_row_address = block_row_address;
-}
+    }
+    private Units unit;
     public int getBlock_row_address() {
     return block_row_address;
 }
@@ -22,7 +23,6 @@ public class Blocks {
 
 }
     private Structures structure;
-    private Units unit;
     public void setStructure(Structures structure) {
     this.structure = structure;
 }
@@ -30,10 +30,22 @@ public class Blocks {
 
         return structure;
 }
-public Units getUnit() {
+    public Units getUnit() {
         return unit;
-}
-public void setUnit(Units unit) {
+    }
+    public void setUnit(Units unit) {
         this.unit = unit;
 }
-}
+
+    public boolean hasUnit(){
+        return unit != null;
+    }
+
+    public void removeUnit(){
+        this.unit = null;
+    }
+
+    public void removeStructure(){
+        this.structure = null;
+    }
+    }

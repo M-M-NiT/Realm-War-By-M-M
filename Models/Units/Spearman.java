@@ -7,4 +7,8 @@ public class Spearman extends Units {
     public void attack(){
 
     }
+    @Override
+    public String getType(){
+        return "Spearman";
+    }
 }

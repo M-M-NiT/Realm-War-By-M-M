@@ -105,7 +105,15 @@ public class Player{
 
         ownedBlocks.add(block);
     }
-public void addUnits(Units unit){
+    public void addUnits(Units unit){
         ownedUnits.add(unit);
 }
+
+    public boolean maxStructuresCount(){
+        if(ownedStructures.size() < 10){
+            return false;
+        }
+        return true;
+    }
 }
+
