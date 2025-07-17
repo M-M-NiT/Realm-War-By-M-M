@@ -41,7 +41,7 @@ public class Blocks {
         return unit != null;
     }
 
-    public void removeUnit(){
+    public void removeUnit(Units unit){
         this.unit = null;
     }
 

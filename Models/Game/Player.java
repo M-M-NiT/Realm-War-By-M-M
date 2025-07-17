@@ -21,6 +21,7 @@ public class Player{
     public Player(String name){
         ownedStructures = new ArrayList<Structures>();
         ownedBlocks = new ArrayList<Blocks>();
+        ownedUnits= new ArrayList<Units>();
         this.name = name;
         this.gold = 100;
         this.food = 100;
@@ -94,7 +95,7 @@ public class Player{
         ownedUnits = unitsList;
     }
 
-    public List<Structures> getOwnedStructures(Player player){
+    public List<Structures> getOwnedStructures(){
         return ownedStructures;
     }
 

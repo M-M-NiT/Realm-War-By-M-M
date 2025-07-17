@@ -2,9 +2,11 @@ package View;
 
 //import Controller.Merge;
 
+import Controller.Merge;
 import Models.Blocks.Blocks;
 import Models.Game.Board;
 import Models.Game.Game;
+import Models.Game.GameController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,8 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuPanel {
-    private JFrame frame ;
-  private JPanel panel;
+    public JFrame frame ;
+    private JPanel panel;
     private JPanel userpanel;
     private JPanel informationpanel;
     private JPanel timerpanel;
@@ -31,10 +33,22 @@ public class MenuPanel {
     String currentAction =null;
     String units_selected = null;
     String structure_selected = null;
-    private JLabel textbox;
+    private JLabel textbox = new JLabel("Game548");
   public JButton[][] button = new JButton[12][12];
+    private JLabel timelabel = new JLabel("Time Left");
   Board board = new Board();
-
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int screenWidth = screenSize.width;
+    int screenHeight = screenSize.height;
+    int panelHeight = (int) (screenHeight * 0.7);
+    int userpanelHeight = screenHeight - panelHeight;
+    int buttonHeight = panelHeight / 12;
+    int buttonWidth = screenWidth / 12;
+    private JLabel playername = new JLabel(" 's Turn ");
+    JLabel goldRatio = new JLabel("Gold : " );
+    JLabel foodRatio = new JLabel("Food  :  " );
+private int first_row;
+private int first_col;
 //
     public MenuPanel() {
        frame = new JFrame("Realm-War");
@@ -52,13 +66,7 @@ public class MenuPanel {
   }
 
 public void createmap() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = screenSize.width;
-        int screenHeight = screenSize.height;
-        int panelHeight = (int) (screenHeight * 0.7);
-        int userpanelHeight = screenHeight - panelHeight;
-        int buttonHeight = panelHeight / 12;
-        int buttonWidth = screenWidth / 12;
+
 
     frame.setLayout(new BorderLayout());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,36 +95,39 @@ for (int i = 0; i < 12; i++) {
         panel.add(button[i][j]);
     }
 }
-
-
-userpanel.setPreferredSize(new Dimension(screenWidth, userpanelHeight));
-informationpanel.setPreferredSize(new Dimension(screenWidth/4, userpanelHeight));
+    userpanel.setPreferredSize(new Dimension(screenWidth, userpanelHeight));
+    gbc.fill = GridBagConstraints.BOTH;
+    informationpanel.setPreferredSize(new Dimension(screenWidth/4, userpanelHeight));
 //informationpanel.setBorder(BorderFactory.createLineBorder(Color.RED));
     informationpanel.setBackground(new Color(180,190,200));
-timerpanel.setPreferredSize(new Dimension(screenWidth/4, userpanelHeight));
+    gbc.gridy = 0;
+    gbc.gridx = 0;
+    gbc.weightx = 0.25;
+    userpanel.add(informationpanel, gbc);
+    timerpanel.setPreferredSize(new Dimension(screenWidth/4, userpanelHeight));
 //timerpanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-timerpanel.setBackground(new Color(180,190,200));
-actionpanel.setPreferredSize(new Dimension(screenWidth/2, userpanelHeight));
+    timerpanel.setBackground(new Color(180,190,200));
+    gbc.gridx = 1;
+    gbc.weightx = 0.25;
+    userpanel.add(timerpanel, gbc);
+    actionpanel.setPreferredSize(new Dimension(screenWidth/2, userpanelHeight));
 //actionpanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-actionpanel.setBackground(new Color(180,190,200));
-gbc.fill = GridBagConstraints.BOTH;
-gbc.gridy = 0;
-gbc.gridx = 0;
-gbc.weightx = 0.25;
-userpanel.add(informationpanel, gbc);
-gbc.gridx = 1;
-gbc.weightx = 0.25;
-userpanel.add(timerpanel, gbc);
-gbc.gridx = 2;
-gbc.weightx = 0.5;
-userpanel.add(actionpanel, gbc);
+    actionpanel.setBackground(new Color(180,190,200));
+    gbc.gridx = 2;
+    gbc.weightx = 0.5;
+    userpanel.add(actionpanel, gbc);
 
 
-ShowOwnedBlocks();
-information_menu("Ali",Game.getInstance().getPlayer(0).getGold(),Game.getInstance().getPlayer(0).getFood());
-timer_menu();
-action_menu("This is for show actions in the Game");
 
+
+
+
+    ShowOwnedBlocks();
+    Game game = Game.getInstance();
+
+    information_menu();
+    timer_menu();
+    action_menu();
 
 
 
@@ -130,11 +141,12 @@ action_menu("This is for show actions in the Game");
 
 
 
-
-
-    frame.add(panel, BorderLayout.CENTER);
     frame.add(userpanel, BorderLayout.SOUTH);
+    frame.add(panel, BorderLayout.CENTER);
     frame.setVisible(true);
+
+
+
 
 }
 public void show_void_blocks(int i , int j) {
@@ -172,11 +184,10 @@ public void show_forest_blocks(int i , int j){
 
 
 }
-public void information_menu(String name,int gold,int food){
+public void information_menu(){
 
-    JLabel playername = new JLabel(name+ " 's Turn ");
-    JLabel goldRatio = new JLabel("Gold : " + gold);
-    JLabel foodRatio = new JLabel("Food  :  " + food);
+
+
     JButton Back_Button = new JButton("Back");
 
     infogbc.gridx = 0;
@@ -196,50 +207,54 @@ public void information_menu(String name,int gold,int food){
     Back_Button.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             resetActionPanel();
+
         }
     });
     informationpanel.add(Back_Button,infogbc);
 
 }
 public void timer_menu(){
-    JLabel timeleft = new JLabel();
-    timer = new Timer(1000, e -> {
-        timeLeft -= 1;
-        if (timeLeft >= 0) {
-            timeleft.setText("Time Left: " + timeLeft + " s");
-        }else {
-            timer.stop();
-        }
 
-    });
-    timer.start();
+
     JButton endturn = new JButton("End Turn");
     endturn.setPreferredSize(new Dimension(100, 50));
     endturn.setBackground(Color.MAGENTA);
+    endturn.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+                    Merge.getInstance1().getGameController().change_player_turn();
+                    Merge.getInstance1().getGameController().processTurn(Game.getInstance().getPlayer(Merge.getInstance1().getGameController().currentPlayerIndex));
+
+                }
+            }
+    );
 
     timergbc.gridx = 0;
     timergbc.gridy = 0;
     timergbc.insets = new Insets(10,10,10,10);
-    timerpanel.add(timeleft,timergbc);
+    timerpanel.add(timelabel,timergbc);
     timergbc.gridy = 1;
     timerpanel.add(endturn,timergbc);
 
 }
-public void action_menu(String action){
-     textbox = new JLabel(action);
+public void action_menu(){
+
+
     textbox.setHorizontalAlignment(SwingConstants.CENTER);
     textbox.setVerticalAlignment(SwingConstants.CENTER);
     //textbox.setBorder(BorderFactory.createLineBorder(Color.RED));
     JLabel Build_structures_text = new JLabel("Build Structures: ");
     Build_structures_text.setHorizontalAlignment(SwingConstants.CENTER);
     Build_structures_text.setVerticalAlignment(SwingConstants.CENTER);
-    JLabel Add_Units_text = new JLabel("Add Units: ");
+    JLabel Add_Units_text = new JLabel("Add Units : ");
     String[] structures_name = {"Barrack","FarmLand","GoldMine","Tower"};
     Add_Units_text.setHorizontalAlignment(SwingConstants.CENTER);
     Add_Units_text.setVerticalAlignment(SwingConstants.CENTER);
     String[] units_name = {"Peasant","Spearman","Swordman","Knight"};
     JComboBox <String> structures_selector = new JComboBox<>(structures_name);
     structures_selector.addActionListener(e -> {
+
         structure_selected = (String) structures_selector.getSelectedItem();
         currentAction = "build_structure";
         Block_Row = null;
@@ -249,6 +264,7 @@ public void action_menu(String action){
     });
     JComboBox <String> units_selector = new JComboBox<>(units_name);
     units_selector.addActionListener(e -> {
+
          units_selected = (String) units_selector.getSelectedItem();
         currentAction ="add_unit";
         Block_Row = null;
@@ -298,45 +314,58 @@ public void action_menu(String action){
     // String selected_units = (String) units_selector.getSelectedItem();
 }
     private void resetActionPanel() {
-        currentAction = null;
-        actionpanel.removeAll();
-        action_menu("This is for show actions in the Game!!!");
-        actionpanel.revalidate();
-        actionpanel.repaint();
+       currentAction = null;
+
+        showmassage("Game");
+
+
     }
 private void set_structures(int i , int j,String structurename){
         switch (structurename){
             case "Barrack":
-                ImageIcon p = new ImageIcon(getClass().getResource("images/Barrack.png"));
-                Image scaledImage = p.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
-                ImageIcon p2 = new ImageIcon(scaledImage);
-                button[i][j].setIcon(p2);
-                board.build_Barrack(Block_Row,Block_Col,0);
-                resetActionPanel();
+                if(board.build_Barrack(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+                    ImageIcon p = new ImageIcon(getClass().getResource("images/Barrack.png"));
+                    Image scaledImage = p.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                    ImageIcon p2 = new ImageIcon(scaledImage);
+                    button[i][j].setIcon(p2);
+                    resetActionPanel();
+                }else {
+                    showmassage("Error");
+                }
                 break;
             case "FarmLand":
-                ImageIcon s = new ImageIcon(getClass().getResource("images/FarmLand.png"));
-                Image scaledImage1 = s.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
-                ImageIcon s2= new ImageIcon(scaledImage1);
-                button[i][j].setIcon(s2);
-                board.build_Farmland(Block_Row,Block_Col,0);
-                resetActionPanel();
+                if(board.build_Farmland(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+                    ImageIcon s = new ImageIcon(getClass().getResource("images/FarmLand.png"));
+                    Image scaledImage1 = s.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                    ImageIcon s2 = new ImageIcon(scaledImage1);
+                    button[i][j].setIcon(s2);
+                    resetActionPanel();
+                }
+                else {
+                    showmassage("Error");
+                }
                 break;
             case "GoldMine":
-                ImageIcon w = new ImageIcon(getClass().getResource("images/GoldMine.png"));
-                Image scaledImage2 = w.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
-                ImageIcon w2 = new ImageIcon(scaledImage2);
-                button[i][j].setIcon(w2);
-                board.build_GoldMine(Block_Row,Block_Col,0);
-                resetActionPanel();
+                if(board.build_GoldMine(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+                    ImageIcon w = new ImageIcon(getClass().getResource("images/GoldMine.png"));
+                    Image scaledImage2 = w.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                    ImageIcon w2 = new ImageIcon(scaledImage2);
+                    button[i][j].setIcon(w2);
+                    resetActionPanel();
+                }else{
+                    showmassage("Error");
+                }
                 break;
             case "Tower":
-                ImageIcon k = new ImageIcon(getClass().getResource("images/Tesla.png"));
-                Image scaledImage3 = k.getImage().getScaledInstance(45,45,Image.SCALE_SMOOTH);
-                ImageIcon k2 = new ImageIcon(scaledImage3);
-                button[i][j].setIcon(k2);
-                board.build_Tower(Block_Row,Block_Col,0);
-                resetActionPanel();
+                if(board.build_Tower(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+                    ImageIcon k = new ImageIcon(getClass().getResource("images/Tesla.png"));
+                    Image scaledImage3 = k.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+                    ImageIcon k2 = new ImageIcon(scaledImage3);
+                    button[i][j].setIcon(k2);
+                    resetActionPanel();
+                }else{
+                    showmassage("Error");
+                }
                 break;
         }
 
@@ -344,58 +373,95 @@ private void set_structures(int i , int j,String structurename){
 private void set_units(int i , int j,String unitname){
         switch (unitname){
             case "Peasant":
+                if(board.addpeasant(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)){
                 ImageIcon p = new ImageIcon(getClass().getResource("images/worker.png"));
-                Image scaledImage = p.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
+                Image scaledImage = p.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
                 ImageIcon p2 = new ImageIcon(scaledImage);
                 button[i][j].setIcon(p2);
-                board.addpeasant(Block_Row,Block_Col,0);
                 resetActionPanel();
+            }
+            showmassage("Cant place");
                 break;
              case "Spearman":
+                 if( board.addSpearman(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)){
                  ImageIcon s = new ImageIcon(getClass().getResource("images/Goblin.png"));
-                 Image scaledImage1 = s.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
-                 ImageIcon s2= new ImageIcon(scaledImage1);
+                 Image scaledImage1 = s.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                 ImageIcon s2 = new ImageIcon(scaledImage1);
                  button[i][j].setIcon(s2);
-                 board.addSpearman(Block_Row,Block_Col,0);
                  resetActionPanel();
+             }else{
+                     showmassage("Error");
+             }
                  break;
              case "Swordman":
-                 ImageIcon w = new ImageIcon(getClass().getResource("images/Barbar.png"));
-                 Image scaledImage2 = w.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
-                 ImageIcon w2 = new ImageIcon(scaledImage2);
-                 button[i][j].setIcon(w2);
-                 board.addSwordman(Block_Row,Block_Col,0);
-                 resetActionPanel();
+                 if(board.addSwordman(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+                     ImageIcon w = new ImageIcon(getClass().getResource("images/Barbar.png"));
+                     Image scaledImage2 = w.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                     ImageIcon w2 = new ImageIcon(scaledImage2);
+                     button[i][j].setIcon(w2);
+                     resetActionPanel();
+                 }else {
+                     showmassage("Error");
+                 }
                  break;
              case "Knight":
-                 ImageIcon k = new ImageIcon(getClass().getResource("images/MegaKnight.png"));
-                 Image scaledImage3 = k.getImage().getScaledInstance(80,60,Image.SCALE_SMOOTH);
-                 ImageIcon k2 = new ImageIcon(scaledImage3);
-                 button[i][j].setIcon(k2);
-                 board.addKnight(Block_Row,Block_Col,0);
-                 resetActionPanel();
+                 if(board.addKnight(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+                     ImageIcon k = new ImageIcon(getClass().getResource("images/MegaKnight.png"));
+                     Image scaledImage3 = k.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                     ImageIcon k2 = new ImageIcon(scaledImage3);
+                     button[i][j].setIcon(k2);
+                     resetActionPanel();
+                 }else{
+                     showmassage("Error");
+                 }
                  break;
         }
 
 }
 private void Choose_Block(int row , int col){
-        if("add_unit".equals(currentAction)){
-            Block_Row = row;
-            Block_Col = col;
-            set_units(row,col,units_selected);
+
+            if ("add_unit".equals(currentAction)) {
+                Block_Row = row;
+                Block_Col = col;
+                set_units(row, col, units_selected);
 
 
-        } else if ("build_structure".equals(currentAction)) {
-            Block_Row = row;
-            Block_Col = col;
-            set_structures(row,col,structure_selected);
+            } else if ("build_structure".equals(currentAction)) {
+                Block_Row = row;
+                Block_Col = col;
+                set_structures(row, col, structure_selected);
 
 
-        }else if("move".equals(currentAction)){
-            Block_Row = row;
-            Block_Col = col;
+            } else if ("move".equals(currentAction)) {
+                Block_Row = row;
+                Block_Col = col;
+                movefunction(row, col);
+            }else if("move_to_block".equals(currentAction)){
+                Block_Row = row;
+                Block_Col = col;
+                move_complete(row, col);
+            }
+
+
+}
+public void movefunction(int row , int col){
+        first_row = row;
+         first_col = col;
+        Block_Row = null;
+        Block_Col = null;
+        showmassage("choose a block for move");
+        currentAction = "move_to_block";
+}
+public void move_complete(int seconderow , int secondecol){
+        if(board.can_move_unit(first_row,first_col,seconderow,secondecol,Game.getInstance().currentPlayerIndex)){
+            button[first_row][first_col].setIcon(null);
+            ImageIcon p = new ImageIcon(getClass().getResource("images/worker.png"));
+            Image scaledImage = p.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+            ImageIcon p2 = new ImageIcon(scaledImage);
+            button[seconderow][secondecol].setIcon(p2);
+            resetActionPanel();
+            ShowOwnedBlocks();
         }
-
 
 }
 public void ShowOwnedBlocks() {
@@ -415,5 +481,22 @@ public void ShowOwnedBlocks() {
     }
 
 }
+public void showname(String name){
+        playername.setText(name);
 
+
+}
+public void showgold(int gold){
+        goldRatio.setText("Gold : " + gold);
+}
+public void showfood(int food){
+       foodRatio.setText("Food : " + food);
+}
+public void showtime(int timeleft){
+      timelabel.setText("Time: " + timeleft);
+}
+public void showmassage(String maassage){
+        textbox.setText(maassage);
+
+}
 }

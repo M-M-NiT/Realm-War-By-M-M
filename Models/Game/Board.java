@@ -1,5 +1,6 @@
 package Models.Game;
 
+import Controller.Merge;
 import Models.Blocks.Blocks;
 import Models.Blocks.EmptyBlock;
 import Models.Blocks.ForestBlock;
@@ -9,6 +10,8 @@ import Models.Units.*;
 import View.MenuPanel;
 
 import java.util.Random;
+
+import static java.awt.SystemColor.menu;
 
 public class Board {
     public TownHall townHall_Player1 = new TownHall();
@@ -74,10 +77,12 @@ public class Board {
     }
 
     public void show() {
-        MenuPanel menu = new MenuPanel();
+//        MenuPanel menu = new MenuPanel();
+//
+Merge merge = Merge.getInstance();
+MenuPanel menu = merge.getMenuPanel();
 
         menu.createmap();
-
         build_TownHall();
 
         for (int i = 0; i < 12; i++) {
@@ -105,7 +110,7 @@ public class Board {
     //index[0] == player 1
     //index[1] == player 2
 
-    public static void build_Barrack(int i, int j, int index) {
+    public  boolean build_Barrack(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Barrack barrack = new Barrack();
             grid[i][j].setStructure(barrack);
@@ -115,10 +120,12 @@ public class Board {
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
             }
+            return true;
         }
+        return false;
     }
 
-    public static void build_Farmland(int i, int j, int index) {
+    public boolean build_Farmland(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
 
             FarmLand farmLand = new FarmLand();
@@ -129,10 +136,12 @@ public class Board {
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
             }
+            return true;
         }
+        return false;
     }
 
-    public static void build_GoldMine(int i, int j, int index) {
+    public boolean build_GoldMine(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
 
             GoldMine goldMine = new GoldMine();
@@ -143,11 +152,12 @@ public class Board {
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
             }
+            return true;
         }
-
+return false;
     }
 
-    public static void build_Tower(int i, int j, int index) {
+    public boolean build_Tower(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
 
             Tower tower = new Tower();
@@ -158,7 +168,9 @@ public class Board {
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
             }
+            return true;
         }
+        return false;
     }
 
     public Blocks getBlock(int x, int y) {
@@ -169,20 +181,17 @@ public class Board {
     }
 
     public boolean isGameOver() {
-        Board board = Game.getInstance().getBoard();
-        Blocks block1 = board.getBlock(1, 1);
-        Blocks block2 = board.getBlock(10, 10);
         if (townHall_Player1.townhallisover()) {
-            block1.setStructure(null);
+            grid[1][1].setStructure(null);
         } else if (townHall_Player2.townhallisover()) {
-            block2.setStructure(null);
+           grid[10][10].setStructure(null);
         }
 
-        if (!(block1.getStructure() instanceof TownHall)) {
+        if (!(grid[1][1].getStructure() instanceof TownHall)) {
             player1Won = false;
             return true;
         }
-        if (block2.getStructure() instanceof TownHall) {
+        if (grid[10][10].getStructure() instanceof TownHall) {
             player1Won = true;
             return true;
         }
@@ -202,47 +211,55 @@ public class Board {
         Game.getInstance().getPlayer(index).addOwnedBlocks(grid[i][j]);
     }
 
-    public static void addpeasant(int i, int j, int index) {
+    public  boolean addpeasant(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Peasant peasant = new Peasant();
             grid[i][j].setUnit(peasant);
             peasant.setX(i);
             peasant.setY(j);
             Game.getInstance().getPlayer(index).addUnits(peasant);
+            return true;
         }
+        return false;
     }
 
-    public static void addKnight(int i, int j, int index) {
+    public boolean addKnight(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Knight knight = new Knight();
             grid[i][j].setUnit(knight);
             knight.setX(i);
             knight.setY(j);
             Game.getInstance().getPlayer(index).addUnits(knight);
+            return true;
         }
+        return false;
     }
 
-    public static void addSpearman(int i, int j, int index) {
+    public boolean addSpearman(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Spearman spearman = new Spearman();
             grid[i][j].setUnit(spearman);
             spearman.setX(i);
             spearman.setY(j);
             Game.getInstance().getPlayer(index).addUnits(spearman);
+            return true;
         }
+        return false;
     }
 
-    public static void addSwordman(int i, int j, int index) {
+    public boolean addSwordman(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Swordman swordman = new Swordman();
             grid[i][j].setUnit(swordman);
             swordman.setX(i);
             swordman.setY(j);
             Game.getInstance().getPlayer(index).addUnits(swordman);
+            return true;
         }
+        return false;
     }
 
-    public static boolean can_build_structure_and_units(int i, int j, int index) {
+    public  boolean can_build_structure_and_units(int i, int j, int index) {
         if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[i][j]))) {
             return false;
         }
@@ -260,8 +277,9 @@ public class Board {
         grid[i][j] = new EmptyBlock(i, j);
     }
 
-    public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col, int index, Units unit) {
-        if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[second_row][second_col]))) {
+    public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col, int index) {
+
+        if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[first_row][first_col]))) {
             return false;
         }
         if (grid[first_row][first_col].getStructure() != null) {
@@ -270,14 +288,25 @@ public class Board {
         if (grid[second_row][second_col].getUnit() != null) {
             return false;
         }
-        if (!(check_movementrange(first_row, first_col, second_row, second_col, unit))) {
+        if(grid[second_row][second_col].getStructure() != null) {
+            return false;
+        }
+        if(grid[first_row][first_col].getUnit() == null) {
+            return false;
+        }
+        if (!(check_movementrange(first_row, first_col, second_row, second_col))) {
             return false;
 
         }
+        Units unit = grid[first_row][first_col].getUnit();
+        grid[first_row][first_col].removeUnit(unit);
+        grid[second_row][second_col].setUnit(unit);
+        Game.getInstance().getPlayer(index).addOwnedBlocks(grid[second_row][second_col]);
         return true;
     }
 
-    public boolean check_movementrange(int first_row, int first_col, int second_row, int second_col, Units unit) {
+    public boolean check_movementrange(int first_row, int first_col, int second_row, int second_col) {
+        Units unit = grid[first_row][first_col].getUnit();
         int a = first_row - unit.getMovementRange();
         int b = first_col - unit.getMovementRange();
         int c = first_row + unit.getMovementRange();
@@ -311,7 +340,7 @@ public class Board {
 
     }
 
-    public static void addUnit(int i, int j, int index) {
+    public  void addUnit(int i, int j, int index) {
         int choice = 0;
         if (can_build_structure_and_units(i, j, index)) {
             switch (choice) {
@@ -331,7 +360,7 @@ public class Board {
         }
     }
 
-    public static void addStructure(int i, int j, int index, Player player) {
+    public  void addStructure(int i, int j, int index, Player player) {
         int choice = 0;
 
         if (can_build_structure_and_units(i, j, index)) {

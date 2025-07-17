@@ -1,3 +1,9 @@
+package Controller;
+
+import Models.Game.Game;
+import Models.Game.GameController;
+import View.MenuPanel;
+
 //package Controller;
 //
 //import Models.Blocks.ForestBlock;
@@ -6,7 +12,34 @@
 //
 //import java.awt.*;
 //
-//public class Merge {
+public class Merge {
+    private static Merge instance ;
+    protected MenuPanel menuPanel;
+    private static Merge instance1;
+    protected GameController gameController;
+    public Merge(){
+        menuPanel = new MenuPanel();
+        gameController = new GameController();
+    }
+public static Merge getInstance(){
+        if(instance== null){
+           instance = new Merge();
+        }
+        return instance;
+}
+public static Merge getInstance1(){
+        if(instance1== null){
+            instance1 = new Merge();
+        }
+        return instance1;
+}
+public MenuPanel getMenuPanel() {
+        return menuPanel;
+}
+public GameController getGameController() {
+        return gameController;
+}
+
 //    MenuPanel menuPanel ;
 //    Board board ;
 //public Merge(MenuPanel menuPanel) {
@@ -29,4 +62,5 @@
 //            menuPanel.button[1][1].setBackground(Color.BLUE);
 //        }
 //    }
-//}
+
+}
