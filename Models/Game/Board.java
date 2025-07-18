@@ -279,9 +279,9 @@ return false;
 
     public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col,int index) {
 
-        System.out.println(index);
+
         if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[first_row][first_col]))) {
-            System.out.println(index);
+
             return false;
         }
         if (grid[first_row][first_col].getStructure() != null) {
@@ -303,6 +303,8 @@ return false;
         Units unit = grid[first_row][first_col].getUnit();
         grid[first_row][first_col].removeUnit(unit);
         grid[second_row][second_col].setUnit(unit);
+        unit.setX(second_row);
+        unit.setY(second_col);
         Game.getInstance().getPlayer(index).addOwnedBlocks(grid[second_row][second_col]);
         return true;
     }

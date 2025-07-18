@@ -2,7 +2,7 @@ package Models.Structures;
 
 public class TownHall extends Structures {
     public TownHall() {
-        super(200,1,1,0,5,0,0) ;
+        super(6,1,1,0,5,0,0) ;
     }
 
     public void upgrade() {
@@ -26,6 +26,6 @@ public void gold_mining(){
 
 }
 public boolean townhallisover(){
-        return Health == 0;
+        return Health <= 0;
 }
 }

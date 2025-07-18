@@ -7,6 +7,8 @@ import Models.Blocks.Blocks;
 import Models.Game.Board;
 import Models.Game.Game;
 import Models.Game.GameController;
+import Models.Structures.Structures;
+import Models.Units.Units;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -223,7 +225,6 @@ public void timer_menu(){
     endturn.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-
                     Merge.getInstance1().getGameController().change_player_turn();
                     Merge.getInstance1().getGameController().processTurn(Game.getInstance().getPlayer(Merge.getInstance1().getGameController().currentPlayerIndex));
 
@@ -517,15 +518,54 @@ public void ShowOwnedBlocks() {
         i = blocks.getBlock_row_address();
         j = blocks.getBlock_col_address();
 
-        button[i][j].setBorder(new LineBorder(Color.BLUE,5));
-
+        button[i][j].setBorder(new LineBorder(Color.BLUE, 5));
+    }
         for (Blocks block : Game.getInstance().getPlayer(1).getOwnedBlocks()) {
             i = block.getBlock_row_address();
             j = block.getBlock_col_address();
             button[i][j].setBorder(new LineBorder(Color.RED,5));
         }
-    }
 
+
+}
+public void showOwnedunitsandstructures(){
+        int i;
+        int j;
+        for (Units units : Game.getInstance().getPlayer(0).getUnitsList()) {
+            i = units.getX();
+            j = units.getY();
+            System.out.println( "health in menu panel" + units.getUnitHealth());
+            System.out.println("row in menu panel" +  i);
+            System.out.println("col in menu panel" + j);
+
+            if(units.getUnitHealth()<=0){
+
+                button[i][j].setIcon(null);
+                button[i][j].setText("");
+            }
+        }
+        for (Units units : Game.getInstance().getPlayer(1).getUnitsList()) {
+            i = units.getX();
+            j = units.getY();
+            if(units.getUnitHealth()<=0){
+                button[i][j].setIcon(null);
+                button[i][j].setText("");
+            }
+        }
+        for (Structures structures : Game.getInstance().getPlayer(0).getOwnedStructures()){
+            i = structures.getX();
+            j = structures.getY();
+            if(structures.getStructureHealth()<=0){
+                button[i][j].setIcon(null);
+            }
+        }
+        for (Structures structures : Game.getInstance().getPlayer(1).getOwnedStructures()){
+            i = structures.getX();
+            j = structures.getY();
+            if(structures.getStructureHealth()<=0){
+                button[i][j].setIcon(null);
+            }
+        }
 }
 public void showname(String name){
         playername.setText(name);
