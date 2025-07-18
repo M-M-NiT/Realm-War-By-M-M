@@ -104,6 +104,8 @@ MenuPanel menu = merge.getMenuPanel();
 
         grid[1][1].setStructure(townHall_Player1);
         grid[10][10].setStructure(townHall_Player2);
+        townHall_Player1.setOwner( Game.getInstance().getPlayer(0));
+        townHall_Player2.setOwner( Game.getInstance().getPlayer(1));
         Game.getInstance().getPlayer(0).addStructure(townHall_Player1);
         Game.getInstance().getPlayer(1).addStructure(townHall_Player2);
     }
@@ -116,6 +118,7 @@ MenuPanel menu = merge.getMenuPanel();
             grid[i][j].setStructure(barrack);
             barrack.setX(i);
             barrack.setY(j);
+            barrack.setOwner(Game.getInstance().getPlayer(0));
             Game.getInstance().getPlayer(index).addStructure(barrack);
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
@@ -132,6 +135,7 @@ MenuPanel menu = merge.getMenuPanel();
             grid[i][j].setStructure(farmLand);
             farmLand.setX(i);
             farmLand.setY(j);
+            farmLand.setOwner(Game.getInstance().getPlayer(index));
             Game.getInstance().getPlayer(index).addStructure(farmLand);
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
@@ -148,6 +152,7 @@ MenuPanel menu = merge.getMenuPanel();
             grid[i][j].setStructure(goldMine);
             goldMine.setX(i);
             goldMine.setY(j);
+            goldMine.setOwner(Game.getInstance().getPlayer(index));
             Game.getInstance().getPlayer(index).addStructure(goldMine);
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
@@ -164,6 +169,7 @@ return false;
             grid[i][j].setStructure(tower);
             tower.setX(i);
             tower.setY(j);
+            tower.setOwner(Game.getInstance().getPlayer(index));
             Game.getInstance().getPlayer(index).addStructure(tower);
             if (grid[i][j] instanceof ForestBlock) {
                 changeForestBlock(i, j, index);
@@ -174,7 +180,7 @@ return false;
     }
 
     public Blocks getBlock(int x, int y) {
-        if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length) {
+        if (x >= 0 && x < grid.length && y >= 0 && y < grid.length) {
             return grid[x][y];
         }
         return null;

@@ -47,8 +47,8 @@ public class GameController {
                 merge.getMenuPanel().showfood(player.getFood());
                 merge.getMenuPanel().showmassage(message);
                 merge.getMenuPanel().showOwnedunitsandstructures();
-                Player p = game.getPlayer((currentPlayerIndex + 1) % 2);
-                resolveDamage(p);
+                // Player p = game.getPlayer((currentPlayerIndex + 1) % 2);
+                resolveDamage(player);
                 final int[] timeLeft = {10};
 
 
@@ -151,6 +151,7 @@ if(player.getUnitsList() == null){
             System.out.println("col in game controller : " + unit.getY());
             int range = unit.getAttackRange();
             int damage = unit.getAttackPower();
+            System.out.println("122");
             for(int dx = -range; dx <= range; dx++){
                 for(int dy = -range; dy <= range; dy++){
                     if(Math.abs(dx) + Math.abs(dy) > range){
@@ -158,19 +159,23 @@ if(player.getUnitsList() == null){
                     }
                     int tx = UnitX + dx;
                     int ty = UnitY + dy;
+                    System.out.println("nn5115nn");
                     if(!board.isInsideBoard(tx, ty)){
                         continue;
                     }
+                    System.out.println("nnnn");
 
                     Blocks block = board.getBlock(tx, ty);
                     if(block == null){
                         continue;
                     }
-
+                    System.out.println("joihiuhui");
                     if(!(block.getStructure() == null)){
+                        System.out.println("ggg");
                         Structures targetStructure = block.getStructure();
                         if (!(targetStructure.getOwner() == player)){
                             targetStructure.takeDamage(damage);
+                            System.out.println("st health : " + targetStructure.getHealth());
                         }
                         if(targetStructure.getHealth() <= 0){
                             block.removeStructure();

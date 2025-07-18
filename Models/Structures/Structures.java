@@ -94,4 +94,7 @@ import Models.Game.Player;
     public int getDamage() {
         return damage;
     }
+    public void setOwner(Player player) {
+        this.player = player;
+    }
     }
