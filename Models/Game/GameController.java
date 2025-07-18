@@ -2,6 +2,7 @@ package Models.Game;
 
 import Controller.Merge;
 import Models.Blocks.Blocks;
+import Models.Blocks.ForestBlock;
 import Models.Structures.Structures;
 import Models.Structures.Tower;
 import Models.Units.Units;
@@ -30,8 +31,10 @@ public class GameController {
             board.create_blocks();
             board.show();
 
-            // اجرای نوبت اول
-            processTurn(game.getPlayer(currentPlayerIndex));
+
+                // اجرای نوبت اول
+                processTurn(game.getPlayer(currentPlayerIndex));
+
         }
 
     public void processTurn(Player player) {
@@ -49,6 +52,7 @@ public class GameController {
                 merge.getMenuPanel().showOwnedunitsandstructures();
                 // Player p = game.getPlayer((currentPlayerIndex + 1) % 2);
                 resolveDamage(player);
+
                 final int[] timeLeft = {10};
 
 
@@ -147,38 +151,43 @@ if(player.getUnitsList() == null){
             System.out.println("health in gamecontroller : " + unit.getUnitHealth());
             int UnitX = unit.getX();
             int UnitY = unit.getY();
+
+            if(board.grid[UnitX][UnitY] instanceof ForestBlock){
+                unit.setAttackPower(unit.getAttackPower()*2);
+            }
             System.out.println("row in game controller : " + unit.getX());
             System.out.println("col in game controller : " + unit.getY());
             int range = unit.getAttackRange();
             int damage = unit.getAttackPower();
-            System.out.println("122");
             for(int dx = -range; dx <= range; dx++){
                 for(int dy = -range; dy <= range; dy++){
-                    if(Math.abs(dx) + Math.abs(dy) > range){
+                    if(Math.abs(dx) + Math.abs(dy) > range+1){
                         continue;
                     }
                     int tx = UnitX + dx;
                     int ty = UnitY + dy;
-                    System.out.println("nn5115nn");
+                    System.out.println("(" + tx + ", " + ty + ")");
+                    //System.out.println("nn5115nn");
                     if(!board.isInsideBoard(tx, ty)){
                         continue;
                     }
-                    System.out.println("nnnn");
+                   // System.out.println("nnnn");
 
                     Blocks block = board.getBlock(tx, ty);
-                    if(block == null){
-                        continue;
-                    }
-                    System.out.println("joihiuhui");
-                    if(!(block.getStructure() == null)){
+//                    if(block == null){
+//                        continue;
+//                    }
+                    //System.out.println("joihiuhui");
+                    if(block.getStructure() != null){
                         System.out.println("ggg");
                         Structures targetStructure = block.getStructure();
                         if (!(targetStructure.getOwner() == player)){
                             targetStructure.takeDamage(damage);
-                            System.out.println("st health : " + targetStructure.getHealth());
+                            System.out.println(targetStructure.getType()+ " health : " + targetStructure.getHealth());
                         }
                         if(targetStructure.getHealth() <= 0){
                             block.removeStructure();
+
                         }
                     }
 
@@ -188,10 +197,12 @@ if(player.getUnitsList() == null){
                     }
                     if(!(targetUnit.getPlayerNum() == currentPlayerIndex)){
                         targetUnit.takeDamage(damage);
+                        System.out.println( "player"+ currentPlayerIndex + targetUnit.getType() + "Health" + targetUnit.getUnitHealth());
                     }
                     if(targetUnit.getUnitHealth() <= 0){
                         Blocks targetUnitBlock = new Blocks(tx, ty);
                         targetUnitBlock.removeUnit(targetUnit);
+                        board.removeunits(tx, ty,((currentPlayerIndex+1)%2) );
                     }
                 }
             }
@@ -228,22 +239,14 @@ if(player.getUnitsList() == null){
                     }
                     if(targetUnit.getUnitHealth() <= 0){
                         block.removeUnit(targetUnit);
+
                     }
                 }
             }
         }
     }
 
-//    private void applySpecialEffects(Player player){
-//        MenuPanel menuPanel = new MenuPanel();
-//        int i = menuPanel.Block_Row;
-//        int j = menuPanel.Block_Col;
-//        ArrayList<Units> units = new ArrayList<>(player.getUnitsList());
-//        for (Units unit : units){
-//            unit.getDamageAmplification(board,i,j);
-//            // check getDamageAmplification in Unit class
-//        }
-//    }
+
 public void change_player_turn(){
 
     if(Merge.getInstance1().getGameController().timer != null && Merge.getInstance1().getGameController().timer.isRunning()){

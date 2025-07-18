@@ -118,5 +118,12 @@ public class Player{
         }
         return true;
     }
+    public void deleteunit(Units unit){
+        ownedUnits.remove(unit);
+
+    }
+    public void deleteblocked(Blocks blocks){
+        ownedBlocks.remove(blocks);
+    }
 }
 

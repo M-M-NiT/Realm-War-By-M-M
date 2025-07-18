@@ -461,7 +461,7 @@ public void movefunction(int row , int col){
         currentAction = "move_to_block";
 }
     public void move_complete(int seconderow, int secondecol) {
-        System.out.println(Merge.getInstance1().getGameController().currentPlayerIndex);
+        System.out.println("for test :" + Merge.getInstance1().getGameController().currentPlayerIndex);
         if (board.can_move_unit(first_row, first_col, seconderow, secondecol,Merge.getInstance1().getGameController().currentPlayerIndex)) {
 
             button[first_row][first_col].setIcon(null);

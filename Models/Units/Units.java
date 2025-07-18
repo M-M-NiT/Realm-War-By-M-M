@@ -90,13 +90,12 @@ public abstract class Units {
 
     }
 
-    public int getDamageAmplification(Board board,int i,int j) {
+    public void getDamageAmplification(Board board,int i,int j) {
         Blocks block = board.grid[i][j];
         // **Need to add x,y values to units to multiply their damage if on forest block**
         if (block instanceof ForestBlock) {
-            return (int) (this.getAttackPower() * 1.1); // Multiply value should update (exp : 1.1)
+            setAttackPower(attackPower * 2);// Multiply value should update (exp : 1.1)
         }
-        return this.getAttackPower();
     }
 
     public abstract String getType();
@@ -128,7 +127,9 @@ public abstract class Units {
     public int getPlayerNum() {
         return playerNum;
     }
-
+public void setPlayerNum(int playerNum) {
+        this.playerNum = playerNum;
+}
     public void takeDamage(int damage) {
         unitHealth -= damage;
     }

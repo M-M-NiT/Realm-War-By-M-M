@@ -180,6 +180,9 @@ return false;
     }
 
     public Blocks getBlock(int x, int y) {
+        System.out.println(x);
+        System.out.println(y);
+        System.out.println(grid.length);
         if (x >= 0 && x < grid.length && y >= 0 && y < grid.length) {
             return grid[x][y];
         }
@@ -223,6 +226,7 @@ return false;
             grid[i][j].setUnit(peasant);
             peasant.setX(i);
             peasant.setY(j);
+            peasant.setPlayerNum(index);
             Game.getInstance().getPlayer(index).addUnits(peasant);
             return true;
         }
@@ -235,6 +239,7 @@ return false;
             grid[i][j].setUnit(knight);
             knight.setX(i);
             knight.setY(j);
+            knight.setPlayerNum(index);
             Game.getInstance().getPlayer(index).addUnits(knight);
             return true;
         }
@@ -247,6 +252,7 @@ return false;
             grid[i][j].setUnit(spearman);
             spearman.setX(i);
             spearman.setY(j);
+            spearman.setPlayerNum(index);
             Game.getInstance().getPlayer(index).addUnits(spearman);
             return true;
         }
@@ -259,6 +265,7 @@ return false;
             grid[i][j].setUnit(swordman);
             swordman.setX(i);
             swordman.setY(j);
+            swordman.setPlayerNum(index);
             Game.getInstance().getPlayer(index).addUnits(swordman);
             return true;
         }
@@ -284,7 +291,7 @@ return false;
     }
 
     public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col,int index) {
-
+        System.out.println("sis :" + index);
 
         if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[first_row][first_col]))) {
 
@@ -334,6 +341,10 @@ return false;
             return true;
         }
         if (second_row == first_row && second_col == d) {
+            return true;
+
+        }
+        if (second_row == first_row && second_col == b) {
             return true;
         }
         if (second_row == c && second_col == b) {
@@ -398,5 +409,13 @@ return false;
             return true;
         }
         return false;
+    }
+    public void removeunits(int i, int j,int index) {
+        Units units = grid[i][j].getUnit();
+        grid[i][j].removeUnit(units);
+        //Game.getInstance().getPlayer(index).deleteblocked(grid[i][j]);
+    }
+    public void removeStructure(int i, int j) {
+        grid[i][j].setStructure(null);
     }
 }
