@@ -33,11 +33,13 @@ public class Player{
     //gold related
     public void increaseGold(){
         for(Blocks blocks : ownedBlocks){
+
             if(blocks instanceof EmptyBlock){
                 gold += 2;
             }
         }
         for(Structures structures : ownedStructures){
+
             if(structures instanceof GoldMine){
                 gold += 4;
             }

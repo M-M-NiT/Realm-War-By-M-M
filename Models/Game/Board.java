@@ -277,9 +277,11 @@ return false;
         grid[i][j] = new EmptyBlock(i, j);
     }
 
-    public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col, int index) {
+    public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col,int index) {
 
+        System.out.println(index);
         if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[first_row][first_col]))) {
+            System.out.println(index);
             return false;
         }
         if (grid[first_row][first_col].getStructure() != null) {

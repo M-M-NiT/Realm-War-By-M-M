@@ -54,7 +54,7 @@ Merge.getInstance1().getGameController().timer= new Timer(1000, null);
             public void actionPerformed(ActionEvent e) {
                 if (timeLeft[0] > 0) {
                     timeLeft[0]--;
-                    System.out.println("Time Left: " + timeLeft[0]);
+                   // System.out.println("Time Left: " + timeLeft[0]);
                     merge.getMenuPanel().showtime(timeLeft[0]);
 
                 } else {

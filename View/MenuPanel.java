@@ -49,6 +49,7 @@ public class MenuPanel {
     JLabel foodRatio = new JLabel("Food  :  " );
 private int first_row;
 private int first_col;
+private String unitname;
 //
     public MenuPanel() {
        frame = new JFrame("Realm-War");
@@ -123,7 +124,7 @@ for (int i = 0; i < 12; i++) {
 
 
     ShowOwnedBlocks();
-    Game game = Game.getInstance();
+    //Game game = Game.getInstance();
 
     information_menu();
     timer_menu();
@@ -374,10 +375,12 @@ private void set_units(int i , int j,String unitname){
         switch (unitname){
             case "Peasant":
                 if(board.addpeasant(Block_Row,Block_Col,Merge.getInstance1().getGameController().currentPlayerIndex)){
+
                 ImageIcon p = new ImageIcon(getClass().getResource("images/worker.png"));
                 Image scaledImage = p.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
                 ImageIcon p2 = new ImageIcon(scaledImage);
                 button[i][j].setIcon(p2);
+                button[i][j].setText("Peasant");
                 resetActionPanel();
             }
             showmassage("Cant place");
@@ -388,6 +391,7 @@ private void set_units(int i , int j,String unitname){
                  Image scaledImage1 = s.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                  ImageIcon s2 = new ImageIcon(scaledImage1);
                  button[i][j].setIcon(s2);
+                 button[i][j].setText("Spearman");
                  resetActionPanel();
              }else{
                      showmassage("Error");
@@ -399,6 +403,7 @@ private void set_units(int i , int j,String unitname){
                      Image scaledImage2 = w.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
                      ImageIcon w2 = new ImageIcon(scaledImage2);
                      button[i][j].setIcon(w2);
+                     button[i][j].setText("Swordman");
                      resetActionPanel();
                  }else {
                      showmassage("Error");
@@ -410,6 +415,7 @@ private void set_units(int i , int j,String unitname){
                      Image scaledImage3 = k.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
                      ImageIcon k2 = new ImageIcon(scaledImage3);
                      button[i][j].setIcon(k2);
+                     button[i][j].setText("Knight");
                      resetActionPanel();
                  }else{
                      showmassage("Error");
@@ -435,6 +441,7 @@ private void Choose_Block(int row , int col){
             } else if ("move".equals(currentAction)) {
                 Block_Row = row;
                 Block_Col = col;
+                unitname = button[Block_Row][Block_Col].getText();
                 movefunction(row, col);
             }else if("move_to_block".equals(currentAction)){
                 Block_Row = row;
@@ -452,18 +459,57 @@ public void movefunction(int row , int col){
         showmassage("choose a block for move");
         currentAction = "move_to_block";
 }
-public void move_complete(int seconderow , int secondecol){
-        if(board.can_move_unit(first_row,first_col,seconderow,secondecol,Game.getInstance().currentPlayerIndex)){
+    public void move_complete(int seconderow, int secondecol) {
+        System.out.println(Merge.getInstance1().getGameController().currentPlayerIndex);
+        if (board.can_move_unit(first_row, first_col, seconderow, secondecol,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+
             button[first_row][first_col].setIcon(null);
-            ImageIcon p = new ImageIcon(getClass().getResource("images/worker.png"));
-            Image scaledImage = p.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
-            ImageIcon p2 = new ImageIcon(scaledImage);
-            button[seconderow][secondecol].setIcon(p2);
-            resetActionPanel();
-            ShowOwnedBlocks();
+            button[first_row][first_col].setText("");
+            switch (unitname) {
+                case "Peasant":
+                    ImageIcon p = new ImageIcon(getClass().getResource("images/worker.png"));
+                    Image scaledImage = p.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                    ImageIcon p2 = new ImageIcon(scaledImage);
+                    button[seconderow][secondecol].setIcon(p2);
+                    button[seconderow][secondecol].setText("Peasant");
+                    // button[seconderow][secondecol].setContentAreaFilled(true);
+                    resetActionPanel();
+                    ShowOwnedBlocks();
+                    break;
+                case "Spearman":
+                    ImageIcon s = new ImageIcon(getClass().getResource("images/Goblin.png"));
+                    Image scaledImage1 = s.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                    ImageIcon s2 = new ImageIcon(scaledImage1);
+                    button[seconderow][secondecol].setIcon(s2);
+                    button[seconderow][secondecol].setText("Spearman");
+                    resetActionPanel();
+                    ShowOwnedBlocks();
+                    break;
+                case "Swordman":
+                    ImageIcon w = new ImageIcon(getClass().getResource("images/Barbar.png"));
+                    Image scaledImage2 = w.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                    ImageIcon w2 = new ImageIcon(scaledImage2);
+                    button[seconderow][secondecol].setIcon(w2);
+                    button[seconderow][secondecol].setText("Swordman");
+                    resetActionPanel();
+                    ShowOwnedBlocks();
+                    break;
+                case "Knight":
+                    ImageIcon k = new ImageIcon(getClass().getResource("images/MegaKnight.png"));
+                    Image scaledImage3 = k.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+                    ImageIcon k2 = new ImageIcon(scaledImage3);
+                    button[seconderow][secondecol].setIcon(k2);
+                    button[seconderow][secondecol].setText("Knight");
+                    resetActionPanel();
+                    ShowOwnedBlocks();
+                    break;
+            }
+
+        } else {
+            showmassage("error");
         }
 
-}
+    }
 public void ShowOwnedBlocks() {
     int i;
     int j;
@@ -499,4 +545,5 @@ public void showmassage(String maassage){
         textbox.setText(maassage);
 
 }
+
 }
