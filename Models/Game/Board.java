@@ -113,76 +113,104 @@ MenuPanel menu = merge.getMenuPanel();
     //index[1] == player 2
 
     public  boolean build_Barrack(int i, int j, int index) {
-        if (can_build_structure_and_units(i, j, index)) {
-            Barrack barrack = new Barrack();
-            grid[i][j].setStructure(barrack);
-            barrack.setX(i);
-            barrack.setY(j);
-            barrack.setOwner(Game.getInstance().getPlayer(0));
-            Game.getInstance().getPlayer(index).addStructure(barrack);
-            if (grid[i][j] instanceof ForestBlock) {
-                changeForestBlock(i, j, index);
+        if(checkcountofstructures(index)) {
+            if (can_build_structure_and_units(i, j, index)) {
+                Barrack barrack = new Barrack();
+                if (checkhaveenoughGoldforStructures(index, barrack)) {
+                    grid[i][j].setStructure(barrack);
+                    barrack.setX(i);
+                    barrack.setY(j);
+                    barrack.setOwner(Game.getInstance().getPlayer(0));
+                    Game.getInstance().getPlayer(index).addStructure(barrack);
+                    Game.getInstance().getPlayer(index).decreaseGold(barrack.getBuildingCost());
+                    if (grid[i][j] instanceof ForestBlock) {
+                        changeForestBlock(i, j, index);
+                    }
+                    return true;
+                }
+                return false;
             }
-            return true;
+            return false;
         }
         return false;
     }
 
     public boolean build_Farmland(int i, int j, int index) {
-        if (can_build_structure_and_units(i, j, index)) {
+        if(checkcountofstructures(index)) {
+            if (can_build_structure_and_units(i, j, index)) {
 
-            FarmLand farmLand = new FarmLand();
-            grid[i][j].setStructure(farmLand);
-            farmLand.setX(i);
-            farmLand.setY(j);
-            farmLand.setOwner(Game.getInstance().getPlayer(index));
-            Game.getInstance().getPlayer(index).addStructure(farmLand);
-            if (grid[i][j] instanceof ForestBlock) {
-                changeForestBlock(i, j, index);
+                FarmLand farmLand = new FarmLand();
+                if (checkhaveenoughGoldforStructures(index, farmLand)) {
+                    grid[i][j].setStructure(farmLand);
+                    farmLand.setX(i);
+                    farmLand.setY(j);
+                    farmLand.setOwner(Game.getInstance().getPlayer(index));
+                    Game.getInstance().getPlayer(index).addStructure(farmLand);
+                    Game.getInstance().getPlayer(index).decreaseGold(farmLand.getBuildingCost());
+                    if (grid[i][j] instanceof ForestBlock) {
+                        changeForestBlock(i, j, index);
+                    }
+                    return true;
+                }
+                return false;
             }
-            return true;
+            return false;
         }
         return false;
     }
 
     public boolean build_GoldMine(int i, int j, int index) {
-        if (can_build_structure_and_units(i, j, index)) {
+        if(checkcountofstructures(index)) {
+            if (can_build_structure_and_units(i, j, index)) {
 
-            GoldMine goldMine = new GoldMine();
-            grid[i][j].setStructure(goldMine);
-            goldMine.setX(i);
-            goldMine.setY(j);
-            goldMine.setOwner(Game.getInstance().getPlayer(index));
-            Game.getInstance().getPlayer(index).addStructure(goldMine);
-            if (grid[i][j] instanceof ForestBlock) {
-                changeForestBlock(i, j, index);
+                GoldMine goldMine = new GoldMine();
+                if (checkhaveenoughGoldforStructures(index, goldMine)) {
+                    grid[i][j].setStructure(goldMine);
+                    goldMine.setX(i);
+                    goldMine.setY(j);
+                    goldMine.setOwner(Game.getInstance().getPlayer(index));
+                    Game.getInstance().getPlayer(index).addStructure(goldMine);
+                    Game.getInstance().getPlayer(index).decreaseGold(goldMine.getBuildingCost());
+                    if (grid[i][j] instanceof ForestBlock) {
+                        changeForestBlock(i, j, index);
+                    }
+                    return true;
+                }
+                return false;
             }
-            return true;
+            return false;
         }
-return false;
+        return false;
     }
 
     public boolean build_Tower(int i, int j, int index) {
-        if (can_build_structure_and_units(i, j, index)) {
+        if(checkcountofstructures(index)) {
+            if (can_build_structure_and_units(i, j, index)) {
 
-            Tower tower = new Tower();
-            grid[i][j].setStructure(tower);
-            tower.setX(i);
-            tower.setY(j);
-            tower.setOwner(Game.getInstance().getPlayer(index));
-            Game.getInstance().getPlayer(index).addStructure(tower);
-            if (grid[i][j] instanceof ForestBlock) {
-                changeForestBlock(i, j, index);
+                Tower tower = new Tower();
+                if (checkhaveenoughGoldforStructures(index, tower)) {
+                    grid[i][j].setStructure(tower);
+                    tower.setX(i);
+                    tower.setY(j);
+                    tower.setOwner(Game.getInstance().getPlayer(index));
+                    Game.getInstance().getPlayer(index).addStructure(tower);
+                    Game.getInstance().getPlayer(index).decreaseGold(tower.getBuildingCost());
+                    if (grid[i][j] instanceof ForestBlock) {
+                        changeForestBlock(i, j, index);
+                    }
+                    return true;
+                }
+                return false;
             }
-            return true;
+            return false;
         }
         return false;
     }
 
     public Blocks getBlock(int x, int y) {
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println(grid.length);
+       // System.out.println(x);
+        //System.out.println(y);
+        //System.out.println(grid.length);
         if (x >= 0 && x < grid.length && y >= 0 && y < grid.length) {
             return grid[x][y];
         }
@@ -191,21 +219,14 @@ return false;
 
     public boolean isGameOver() {
         if (townHall_Player1.townhallisover()) {
-            grid[1][1].setStructure(null);
+            return false;
         } else if (townHall_Player2.townhallisover()) {
-           grid[10][10].setStructure(null);
+            return false;
         }
-
-        if (!(grid[1][1].getStructure() instanceof TownHall)) {
-            player1Won = false;
-            return true;
-        }
-        if (grid[10][10].getStructure() instanceof TownHall) {
-            player1Won = true;
-            return true;
-        }
-        return false;
+        return true;
     }
+
+
 
     public void SetDefaultBlocks() {
         Game.getInstance().getPlayer(0).addOwnedBlocks(grid[1][2]);
@@ -221,40 +242,68 @@ return false;
     }
 
     public  boolean addpeasant(int i, int j, int index) {
-        if (can_build_structure_and_units(i, j, index)) {
-            Peasant peasant = new Peasant();
-            grid[i][j].setUnit(peasant);
-            peasant.setX(i);
-            peasant.setY(j);
-            peasant.setPlayerNum(index);
-            Game.getInstance().getPlayer(index).addUnits(peasant);
-            return true;
-        }
-        return false;
+
+            if (can_build_structure_and_units(i, j, index)) {
+                Peasant peasant = new Peasant();
+                if(checkhaveenoughGoldforunits(index,peasant)) {
+                    if(checkhaveunitspace(index,peasant)) {
+                        grid[i][j].setUnit(peasant);
+                        peasant.setX(i);
+                        peasant.setY(j);
+                        peasant.setPlayerNum(index);
+                        Game.getInstance().getPlayer(index).addUnits(peasant);
+                        Game.getInstance().getPlayer(index).decreaseGold(peasant.getUnitfood());
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+
+
+
     }
 
     public boolean addKnight(int i, int j, int index) {
-        if (can_build_structure_and_units(i, j, index)) {
-            Knight knight = new Knight();
-            grid[i][j].setUnit(knight);
-            knight.setX(i);
-            knight.setY(j);
-            knight.setPlayerNum(index);
-            Game.getInstance().getPlayer(index).addUnits(knight);
-            return true;
-        }
-        return false;
+            if (can_build_structure_and_units(i, j, index)) {
+                Knight knight = new Knight();
+                if(checkhaveenoughGoldforunits(index,knight)) {
+                    if(checkhaveunitspace(index,knight)) {
+                        grid[i][j].setUnit(knight);
+                        knight.setX(i);
+                        knight.setY(j);
+                        knight.setPlayerNum(index);
+                        Game.getInstance().getPlayer(index).addUnits(knight);
+                        Game.getInstance().getPlayer(index).decreaseGold(knight.getUnitfood());
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+
+
+
     }
 
     public boolean addSpearman(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Spearman spearman = new Spearman();
-            grid[i][j].setUnit(spearman);
-            spearman.setX(i);
-            spearman.setY(j);
-            spearman.setPlayerNum(index);
-            Game.getInstance().getPlayer(index).addUnits(spearman);
-            return true;
+            if(checkhaveenoughGoldforunits(index,spearman)) {
+                if (checkhaveunitspace(index, spearman)) {
+                    grid[i][j].setUnit(spearman);
+                    spearman.setX(i);
+                    spearman.setY(j);
+                    spearman.setPlayerNum(index);
+                    Game.getInstance().getPlayer(index).addUnits(spearman);
+                    Game.getInstance().getPlayer(index).decreaseGold(spearman.getUnitfood());
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
         return false;
     }
@@ -262,12 +311,19 @@ return false;
     public boolean addSwordman(int i, int j, int index) {
         if (can_build_structure_and_units(i, j, index)) {
             Swordman swordman = new Swordman();
-            grid[i][j].setUnit(swordman);
-            swordman.setX(i);
-            swordman.setY(j);
-            swordman.setPlayerNum(index);
-            Game.getInstance().getPlayer(index).addUnits(swordman);
-            return true;
+            if(checkhaveenoughGoldforunits(index,swordman)) {
+                if (checkhaveunitspace(index, swordman)) {
+                    grid[i][j].setUnit(swordman);
+                    swordman.setX(i);
+                    swordman.setY(j);
+                    swordman.setPlayerNum(index);
+                    Game.getInstance().getPlayer(index).addUnits(swordman);
+                    Game.getInstance().getPlayer(index).decreaseGold(swordman.getUnitfood());
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
         return false;
     }
@@ -288,19 +344,17 @@ return false;
     public static void changeForestBlock(int i, int j, int index) {
         grid[i][j] = null;
         grid[i][j] = new EmptyBlock(i, j);
+        Merge.getInstance().getMenuPanel().changecolorofforestblock(i,j);
     }
 
     public boolean can_move_unit(int first_row, int first_col, int second_row, int second_col,int index) {
-        System.out.println("sis :" + index);
+        //System.out.println("sis :" + index);
 
         if (!(Game.getInstance().getPlayer(index).getOwnedBlocks().contains(grid[first_row][first_col]))) {
 
             return false;
         }
         if (grid[first_row][first_col].getStructure() != null) {
-            return false;
-        }
-        if (grid[second_row][second_col].getUnit() != null) {
             return false;
         }
         if(grid[second_row][second_col].getStructure() != null) {
@@ -313,12 +367,29 @@ return false;
             return false;
 
         }
+        if(grid[second_row][second_col].getUnit() != null) {
+            if (grid[second_row][second_col].getUnit().getType().equals(grid[first_row][first_col].getUnit().getType())) {
+                System.out.println(grid[first_row][first_col].getUnit().getType());
+                System.out.println(grid[second_row][second_col].getUnit().getType());
+                grid[first_row][first_col].removeUnit(grid[first_row][first_col].getUnit());
+                grid[second_row][second_col].getUnit().updrage();
+
+
+                return true;
+            }
+
+            if (!(grid[second_row][second_col].getUnit().getType().equals(grid[first_row][first_col].getUnit().getType()))) {
+                return false;
+            }
+        }
         Units unit = grid[first_row][first_col].getUnit();
         grid[first_row][first_col].removeUnit(unit);
         grid[second_row][second_col].setUnit(unit);
         unit.setX(second_row);
         unit.setY(second_col);
+        Game.getInstance().getPlayer(((index+1)%2)).getOwnedBlocks().remove(grid[first_row][first_col]);
         Game.getInstance().getPlayer(index).addOwnedBlocks(grid[second_row][second_col]);
+
         return true;
     }
 
@@ -417,5 +488,43 @@ return false;
     }
     public void removeStructure(int i, int j) {
         grid[i][j].setStructure(null);
+    }
+    public boolean canlevelup(int row, int col,int index) {
+        if(Game.getInstance().getPlayer(index).getOwnedStructures().contains(grid[row][col].getStructure())){
+            System.out.println("x");
+            if(grid[row][col].getStructure().getLevel() <= grid[row][col].getStructure().getMaxLevel()){
+                System.out.println("v");
+                grid[row][col].getStructure().upgrade();
+                return true;
+            }
+            return false;
+
+        }
+        return false;
+    }
+    public boolean checkhaveunitspace(int index, Units unit) {
+        if(Game.getInstance().getPlayer(index).countUnits() + unit.getSpace() <= Game.getInstance().getPlayer(index).getUnitSpace()){
+            return true;
+        }
+        return false;
+
+    }
+    public boolean checkhaveenoughGoldforunits(int index, Units unit ) {
+        if(Game.getInstance().getPlayer(index).getGold() < unit.getUnitCost()){
+            return false;
+        }
+        return true;
+    }
+    public boolean checkhaveenoughGoldforStructures(int index, Structures structure ) {
+        if(Game.getInstance().getPlayer(index).getGold() < structure.getBuildingCost()){
+            return false;
+        }
+        return true;
+    }
+    public boolean checkcountofstructures(int index) {
+        if(Game.getInstance().getPlayer(index).countStructures() + 1 <= 10){
+            return true;
+        }
+        return false;
     }
 }

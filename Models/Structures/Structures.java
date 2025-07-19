@@ -54,12 +54,7 @@ import Models.Game.Player;
     public void setMaxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
     }
-    public void food_producing(){
 
-    }
-    public void gold_mining(){
-
-    }
     public int getMaintenanceCost() {
         return maintenanceCost;
     }
@@ -96,5 +91,8 @@ import Models.Game.Player;
     }
     public void setOwner(Player player) {
         this.player = player;
+    }
+    public int getBuildingCost() {
+        return buildingCost;
     }
     }

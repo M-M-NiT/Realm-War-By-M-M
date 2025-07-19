@@ -17,7 +17,7 @@ public abstract class Units {
     private int x;
     private int y;
 
-    public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space,int playerNum) {
+    public Units(int unitHealth,int movementRange,int attackPower,int attackRange,int unitCost,int food,int space) {
         this.unitHealth = unitHealth;
         this.movementRange = movementRange;
         this.attackPower = attackPower;
@@ -25,11 +25,11 @@ public abstract class Units {
         this.unitCost = unitCost;
         this.unitfood = food;
         this.space = space;
-        this.playerNum = playerNum;
+
     }
 
     // NEED X,Y VALUE FOR UNITS;
-
+    public abstract void updrage();
     public int getUnitHealth() {
         return unitHealth;
     }
@@ -127,10 +127,11 @@ public abstract class Units {
     public int getPlayerNum() {
         return playerNum;
     }
-public void setPlayerNum(int playerNum) {
+public void setPlayerNum(Integer playerNum) {
         this.playerNum = playerNum;
 }
     public void takeDamage(int damage) {
         unitHealth -= damage;
     }
+
 }

@@ -47,8 +47,10 @@ public class MenuPanel {
     int buttonHeight = panelHeight / 12;
     int buttonWidth = screenWidth / 12;
     private JLabel playername = new JLabel(" 's Turn ");
-    JLabel goldRatio = new JLabel("Gold : " );
-    JLabel foodRatio = new JLabel("Food  :  " );
+    JLabel goldRatio = new JLabel();
+    JLabel foodRatio = new JLabel();
+    JLabel unitspaceRatio = new JLabel();
+    JLabel ownBlockRatio = new JLabel();
 private int first_row;
 private int first_col;
 private String unitname;
@@ -203,7 +205,7 @@ public void information_menu(){
     infogbc.gridy = 2;
     infogbc.insets = new Insets(20, 10, 10, 10);
     informationpanel.add(foodRatio,infogbc);
-    infogbc.gridy = 3;
+    infogbc.gridy = 5;
     infogbc.insets = new Insets(10, 10, 1, 10);
     Back_Button.setPreferredSize(new Dimension(100,80));
     Back_Button.setBackground(Color.ORANGE);
@@ -214,7 +216,11 @@ public void information_menu(){
         }
     });
     informationpanel.add(Back_Button,infogbc);
+    infogbc.gridy = 3;
+    informationpanel.add(unitspaceRatio,infogbc);
 
+    infogbc.gridy = 4;
+    informationpanel.add(ownBlockRatio,infogbc);
 }
 public void timer_menu(){
 
@@ -287,6 +293,14 @@ public void action_menu(){
     JButton levelup_button = new JButton("Level Up");
     levelup_button.setPreferredSize(new Dimension(50, 50));
     levelup_button.setBackground(Color.CYAN);
+    levelup_button.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            currentAction = "level_up";
+            Block_Row = null;
+            Block_Col = null;
+            textbox.setText("Choose a Block : ");
+        }
+    });
     actiongbc.fill = GridBagConstraints.HORIZONTAL;
     actiongbc.insets = new Insets(15, 15, 15, 15);
     actiongbc.weighty = 1.0;
@@ -369,6 +383,7 @@ private void set_structures(int i , int j,String structurename){
                     showmassage("Error");
                 }
                 break;
+
         }
 
 }
@@ -448,6 +463,10 @@ private void Choose_Block(int row , int col){
                 Block_Row = row;
                 Block_Col = col;
                 move_complete(row, col);
+            }else if("level_up".equals(currentAction)){
+                Block_Row = row;
+                Block_Col = col;
+                levelupCompleted(row, col);
             }
 
 
@@ -461,7 +480,7 @@ public void movefunction(int row , int col){
         currentAction = "move_to_block";
 }
     public void move_complete(int seconderow, int secondecol) {
-        System.out.println("for test :" + Merge.getInstance1().getGameController().currentPlayerIndex);
+        //System.out.println("for test :" + Merge.getInstance1().getGameController().currentPlayerIndex);
         if (board.can_move_unit(first_row, first_col, seconderow, secondecol,Merge.getInstance1().getGameController().currentPlayerIndex)) {
 
             button[first_row][first_col].setIcon(null);
@@ -534,9 +553,9 @@ public void showOwnedunitsandstructures(){
         for (Units units : Game.getInstance().getPlayer(0).getUnitsList()) {
             i = units.getX();
             j = units.getY();
-            System.out.println( "health in menu panel" + units.getUnitHealth());
-            System.out.println("row in menu panel" +  i);
-            System.out.println("col in menu panel" + j);
+          //  System.out.println( "health in menu panel" + units.getUnitHealth());
+            //System.out.println("row in menu panel" +  i);
+            //System.out.println("col in menu panel" + j);
 
             if(units.getUnitHealth()<=0){
 
@@ -578,6 +597,10 @@ public void showgold(int gold){
 public void showfood(int food){
        foodRatio.setText("Food : " + food);
 }
+public void showunitspace(int units,int unitspace){unitspaceRatio.setText("Units/UnitSpace : " +  units + "/" +  unitspace);}
+public void showcountofownedblocks(int ownedblocks){
+        ownBlockRatio.setText("Count Of OwnedBlocks : " + ownedblocks);
+}
 public void showtime(int timeleft){
       timelabel.setText("Time: " + timeleft);
 }
@@ -585,5 +608,15 @@ public void showmassage(String maassage){
         textbox.setText(maassage);
 
 }
-
+public void levelupCompleted(int row, int col){
+        if(board.canlevelup(row,col,Merge.getInstance1().getGameController().currentPlayerIndex)) {
+            textbox.setText("Level-Up Completed");
+        }else {
+            textbox.setText("Level-Up Failed");
+        }
+}
+public void changecolorofforestblock(int i , int j){
+        button[i][j].setIcon(null);
+    button[i][j].setBackground(new Color(211,211,211));
+}
 }

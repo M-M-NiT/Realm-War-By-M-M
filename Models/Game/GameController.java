@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Iterator;
 import java.util.TimerTask;
 
 public class GameController {
@@ -48,12 +49,15 @@ public class GameController {
                 merge.getMenuPanel().showname(player.getName());
                 merge.getMenuPanel().showgold(player.getGold());
                 merge.getMenuPanel().showfood(player.getFood());
+                merge.getMenuPanel().showunitspace(player.countUnits(),player.getUnitSpace());
+                merge.getMenuPanel().showcountofownedblocks(player.countBlocks()+1);
                 merge.getMenuPanel().showmassage(message);
                 merge.getMenuPanel().showOwnedunitsandstructures();
-                // Player p = game.getPlayer((currentPlayerIndex + 1) % 2);
                 resolveDamage(player);
+                // Player p = game.getPlayer((currentPlayerIndex + 1) % 2);
 
-                final int[] timeLeft = {10};
+
+                final int[] timeLeft = {25};
 
 
                 Merge.getInstance1().getGameController().timer = new Timer(1000, null);
@@ -86,6 +90,7 @@ public class GameController {
     public void collectResources(Player player){
         player.increaseGold();
         player.increaseFood();
+        player.setunitSpace();
     }
 
     private void payMaintenance(Player player){
@@ -143,72 +148,84 @@ if(player.getUnitsList() == null){
 //        }
 //    }
 
-    public void resolveDamage(Player player){
-        if (player.getUnitsList() == null){
+    public void resolveDamage(Player player) {
+        if (player.getUnitsList().size() == 0) {
             return;
         }
-        for(Units unit : player.getUnitsList()){
-            System.out.println("health in gamecontroller : " + unit.getUnitHealth());
+        Iterator<Units> iterator = player.getUnitsList().iterator();
+        while (iterator.hasNext()) {
+            Units unit = iterator.next();
+
+            if (unit.getUnitHealth() <= 0) {
+                iterator.remove(); // ✅ حذف امن
+                continue; // نذار این unit حمله کنه
+            }
+
+            // عملیات حمله با این unit
+
+
+            //System.out.println("health in gamecontroller : " + unit.getUnitHealth());
             int UnitX = unit.getX();
             int UnitY = unit.getY();
-
-            if(board.grid[UnitX][UnitY] instanceof ForestBlock){
-                unit.setAttackPower(unit.getAttackPower()*2);
-            }
-            System.out.println("row in game controller : " + unit.getX());
-            System.out.println("col in game controller : " + unit.getY());
             int range = unit.getAttackRange();
             int damage = unit.getAttackPower();
-            for(int dx = -range; dx <= range; dx++){
-                for(int dy = -range; dy <= range; dy++){
-                    if(Math.abs(dx) + Math.abs(dy) > range+1){
+            if (board.grid[UnitX][UnitY] instanceof ForestBlock) {
+               damage = damage*2;
+            }
+            //  System.out.println("row in game controller : " + unit.getX());
+            //System.out.println("col in game controller : " + unit.getY());
+
+            for (int dx = -range; dx <= range; dx++) {
+                for (int dy = -range; dy <= range; dy++) {
+                    if (Math.abs(dx) + Math.abs(dy) > range + 1) {
                         continue;
                     }
                     int tx = UnitX + dx;
                     int ty = UnitY + dy;
-                    System.out.println("(" + tx + ", " + ty + ")");
+                    //System.out.println("(" + tx + ", " + ty + ")");
                     //System.out.println("nn5115nn");
-                    if(!board.isInsideBoard(tx, ty)){
+                    if (!board.isInsideBoard(tx, ty)) {
                         continue;
                     }
-                   // System.out.println("nnnn");
+                    // System.out.println("nnnn");
 
                     Blocks block = board.getBlock(tx, ty);
 //                    if(block == null){
 //                        continue;
 //                    }
                     //System.out.println("joihiuhui");
-                    if(block.getStructure() != null){
-                        System.out.println("ggg");
+                    if (block.getStructure() != null) {
+                        //System.out.println("ggg");
                         Structures targetStructure = block.getStructure();
-                        if (!(targetStructure.getOwner() == player)){
+                        if (targetStructure.getOwner() != player) {
                             targetStructure.takeDamage(damage);
-                            System.out.println(targetStructure.getType()+ " health : " + targetStructure.getHealth());
+                            System.out.println(targetStructure.getType() + " health : " + targetStructure.getHealth());
                         }
-                        if(targetStructure.getHealth() <= 0){
+                        if (targetStructure.getHealth() <= 0) {
                             block.removeStructure();
+                            //  Game.getInstance().getPlayer((currentPlayerIndex+1)%2).getOwnedStructures().remove(targetStructure);
 
                         }
                     }
 
                     Units targetUnit = block.getUnit();
-                    if(targetUnit == null){
+                    if (targetUnit == null) {
                         continue;
                     }
-                    if(!(targetUnit.getPlayerNum() == currentPlayerIndex)){
+                    if (!(targetUnit.getPlayerNum() == currentPlayerIndex)) {
                         targetUnit.takeDamage(damage);
-                        System.out.println( "player"+ currentPlayerIndex + targetUnit.getType() + "Health" + targetUnit.getUnitHealth());
+                        System.out.println("player" + ((currentPlayerIndex + 1) % 2) + targetUnit.getType() + "Health = " + targetUnit.getUnitHealth());
                     }
-                    if(targetUnit.getUnitHealth() <= 0){
-                        Blocks targetUnitBlock = new Blocks(tx, ty);
-                        targetUnitBlock.removeUnit(targetUnit);
-                        board.removeunits(tx, ty,((currentPlayerIndex+1)%2) );
+                    if (targetUnit.getUnitHealth() <= 0) {
+                        block.removeUnit(targetUnit);
+                        // Game.getInstance().getPlayer(((currentPlayerIndex+1)%2)).getUnitsList().remove(targetUnit);
+                        //board.removeunits(tx, ty,((currentPlayerIndex+1)%2) );
                     }
                 }
             }
         }
-        for(Structures structure : player.getOwnedStructures()){
-            if(!(structure instanceof Tower)){
+        for (Structures structure : player.getOwnedStructures()) {
+            if (!(structure instanceof Tower)) {
                 continue;
             }
             int StructureX = structure.getX();
@@ -216,34 +233,40 @@ if(player.getUnitsList() == null){
             int range = 3; //Set range of Towers / might need an update
             int damage = structure.getDamage();
 
-            for(int dx = -range; dx <= range; dx++){
-                for(int dy = -range; dy <= range; dy++){
-                    if(Math.abs(dx) + Math.abs(dy) > range){
+            for (int dx = -range; dx <= range; dx++) {
+                for (int dy = -range; dy <= range; dy++) {
+                    if (Math.abs(dx) + Math.abs(dy) > range+1) {
                         continue;
                     }
                     int tx = StructureX + dx;
                     int ty = StructureY + dy;
 
-                    if(!board.isInsideBoard(tx, ty)){
+                    if (!board.isInsideBoard(tx, ty)) {
+
                         continue;
                     }
 
                     Blocks block = board.getBlock(tx, ty);
-                    if(block == null || !block.hasUnit()){
+                    if (block == null || !block.hasUnit()) {
+
                         continue;
+
                     }
 
                     Units targetUnit = block.getUnit();
-                    if(!(targetUnit.getPlayerNum() == currentPlayerIndex)){
+                    if (targetUnit.getPlayerNum() != currentPlayerIndex) {
                         targetUnit.takeDamage(damage);
+
                     }
-                    if(targetUnit.getUnitHealth() <= 0){
+                    if (targetUnit.getUnitHealth() <= 0) {
                         block.removeUnit(targetUnit);
+                        Game.getInstance().getPlayer((((currentPlayerIndex + 1) % 2))).getUnitsList().remove(targetUnit);
 
                     }
                 }
             }
-        }
+
+    }
     }
 
 
@@ -252,6 +275,7 @@ public void change_player_turn(){
     if(Merge.getInstance1().getGameController().timer != null && Merge.getInstance1().getGameController().timer.isRunning()){
         Merge.getInstance1().getGameController().timer.stop();
     }
+
     currentPlayerIndex = (currentPlayerIndex + 1) % 2;
 }
 

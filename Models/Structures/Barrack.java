@@ -40,7 +40,8 @@ public boolean CanAddUnits(){
 
 
 
-public void add_units_space(){
+public int add_units_space(){
+        return unitSpace;
 
 }
 }

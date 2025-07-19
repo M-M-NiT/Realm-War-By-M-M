@@ -14,6 +14,7 @@ public class Player{
     private String name;
     private int gold;
     private int food;
+    private int unitSpace;
     private List<Structures> ownedStructures;
     private List<Units> ownedUnits;
     private List<Blocks> ownedBlocks;
@@ -41,7 +42,7 @@ public class Player{
         for(Structures structures : ownedStructures){
 
             if(structures instanceof GoldMine){
-                gold += 4;
+                gold += ((GoldMine) structures).gold_mining();
             }
             else if (structures instanceof TownHall){
                 gold += 8;
@@ -67,7 +68,7 @@ public class Player{
         }
         for (Structures structure : ownedStructures){
             if(structure instanceof FarmLand){
-                food += 4;
+                food += ((FarmLand) structure).food_producing();
             }
             else if(structure instanceof TownHall){
                 food += 8;
@@ -124,6 +125,33 @@ public class Player{
     }
     public void deleteblocked(Blocks blocks){
         ownedBlocks.remove(blocks);
+    }
+    public void setunitSpace(){
+        for (Structures structure : ownedStructures){
+            if(structure instanceof Barrack){
+                unitSpace += ((Barrack) structure).add_units_space() ;
+            }
+        }
+
+
+
+    }
+
+    public int countUnits(){
+        return ownedUnits.size();
+    }
+
+    public int getUnitSpace(){
+        return unitSpace;
+    }
+    public int countBlocks(){
+        return ownedBlocks.size();
+    }
+    public int countStructures(){
+        return ownedStructures.size();
+    }
+    public void decreaseGold(int value){
+        gold -= value;
     }
 }
 
