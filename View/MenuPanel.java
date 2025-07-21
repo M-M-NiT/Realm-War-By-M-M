@@ -237,6 +237,16 @@ public void timer_menu(){
                 }
             }
     );
+    JButton save = new JButton("Save");
+    save.setPreferredSize(new Dimension(100, 50));
+    save.setBackground(Color.RED);
+    save.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            }
+    );
 
     timergbc.gridx = 0;
     timergbc.gridy = 0;
@@ -244,6 +254,8 @@ public void timer_menu(){
     timerpanel.add(timelabel,timergbc);
     timergbc.gridy = 1;
     timerpanel.add(endturn,timergbc);
+    timergbc.gridy = 2;
+    timerpanel.add(save,timergbc);
 
 }
 public void action_menu(){
@@ -587,7 +599,7 @@ public void showOwnedunitsandstructures(){
         }
 }
 public void showname(String name){
-        playername.setText(name);
+        playername.setText(name + " 's turn :");
 
 
 }
@@ -618,5 +630,74 @@ public void levelupCompleted(int row, int col){
 public void changecolorofforestblock(int i , int j){
         button[i][j].setIcon(null);
     button[i][j].setBackground(new Color(211,211,211));
+}
+public void startmenu(){
+        JFrame frame = new JFrame("startMenu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        JPanel panel = new JPanel();
+        JButton newGame = new JButton("New Game (1v1)");
+
+
+        newGame.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                JPanel namepanel = new JPanel();
+                JLabel p1name = new JLabel("Player 1 Name: ");
+                JLabel p2name = new JLabel("Player 2 Name: ");
+                JTextField p1name1 = new JTextField(25);
+                JTextField p2name1 = new JTextField(25);
+                JLabel filename = new JLabel("Filename: ");
+                JTextField filename1 = new JTextField(25);
+                JButton submit = new JButton("Submit");
+                namepanel.add(p1name);
+                namepanel.add(p1name1);
+                namepanel.add(p2name);
+                namepanel.add(p2name1);
+                namepanel.add(filename);
+                namepanel.add(filename1);
+                namepanel.add(submit);
+                frame.add(namepanel, BorderLayout.CENTER);
+                frame.revalidate();
+                frame.repaint();
+                submit.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        Game.getInstance().getPlayer(0).setName(p1name1.getText());
+                        Game.getInstance().getPlayer(1).setName(p2name1.getText());
+                        GameController gameController = new GameController();
+                        gameController.startGame();
+                        frame.dispose();
+                    }
+                });
+
+            }
+
+        });
+        JButton LoadGame = new JButton("Load Game");
+        LoadGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Merge to DataBase
+            }
+        });
+        JLabel game =new JLabel("Realm War By M-M");
+        JLabel prouducers = new JLabel("Mohammad Zargari - Mostafa Jabbari");
+        panel.add(game);
+        panel.add(newGame);
+        panel.add(LoadGame);
+    panel.add(prouducers);
+    frame.add(panel,BorderLayout.NORTH);
+    frame.setVisible(true);
+}
+public void endmenu(){
+        JFrame frame = new JFrame("endMenu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        JPanel panel = new JPanel();
+        JLabel winner = new JLabel(" is Winner");
+        panel.add(winner);
+        frame.add(panel,BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
+        frame.setVisible(true);
 }
 }

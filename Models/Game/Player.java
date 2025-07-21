@@ -19,14 +19,17 @@ public class Player{
     private List<Units> ownedUnits;
     private List<Blocks> ownedBlocks;
 
-    public Player(String name){
+    public Player(){
         ownedStructures = new ArrayList<Structures>();
         ownedBlocks = new ArrayList<Blocks>();
         ownedUnits= new ArrayList<Units>();
-        this.name = name;
         this.gold = 100;
         this.food = 100;
         // ** Starting gold/unitfood values should update **
+    }
+    public void setName(String name){
+        this.name = name;
+
     }
     public String getName(){
         return name;

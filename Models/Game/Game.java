@@ -1,5 +1,7 @@
 package Models.Game;
 
+import Controller.Merge;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +14,12 @@ public class Game {
     private Board board;
     public Game(){
         players = new ArrayList<Player>();
-        players.add(new Player("Player1"));
-        players.add(new Player("Player2"));
+        players.add(new Player());
+        players.add(new Player());
     }
     public static void main(String[] args) {
-      GameController gameController = new GameController();
-      gameController.startGame();}
+        Merge.getInstance().getMenuPanel().startmenu();
+    }
     public static Game getInstance(){
         if(instance == null){
             instance = new Game();

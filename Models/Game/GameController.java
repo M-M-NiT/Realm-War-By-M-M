@@ -39,7 +39,7 @@ public class GameController {
         }
 
     public void processTurn(Player player) {
-            if(board.isGameOver()) {
+            if(!board.isGameOver()) {
 
 
                 merge = Merge.getInstance();
@@ -81,7 +81,7 @@ public class GameController {
 
                 Merge.getInstance1().getGameController().timer.start();
             }else {
-                System.out.println("player"+ game.currentPlayerIndex + "win");
+                merge.getMenuPanel().endmenu();
             }
 
 
@@ -199,7 +199,10 @@ if(player.getUnitsList() == null){
                         Structures targetStructure = block.getStructure();
                         if (targetStructure.getOwner() != player) {
                             targetStructure.takeDamage(damage);
-                            System.out.println(targetStructure.getType() + " health : " + targetStructure.getHealth());
+                            System.out.println(targetStructure.getType() + tx + ty + " health : " + targetStructure.getHealth());
+                            if(targetStructure == board.townHall_Player2){
+                                System.out.println("yyy");
+                            }
                         }
                         if (targetStructure.getHealth() <= 0) {
                             block.removeStructure();

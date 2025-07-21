@@ -2,11 +2,11 @@ package Models.Structures;
 
 public class TownHall extends Structures {
     public TownHall() {
-        super(6,1,1,0,5,0,0) ;
+        super(6, 1, 1, 0, 5, 0, 0);
     }
 
     public void upgrade() {
-        if(Level < maxLevel){
+        if (Level < maxLevel) {
             Level++;
             Health += 1;
 
@@ -19,13 +19,11 @@ public class TownHall extends Structures {
         return "TownHall";
     }
 
-public void food_producing(){
+    public void food_producing() {
 
-}
-public void gold_mining(){
+    }
 
-}
-public boolean townhallisover(){
-        return Health <= 0;
-}
+    public void gold_mining() {
+
+    }
 }

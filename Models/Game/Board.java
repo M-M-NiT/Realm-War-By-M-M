@@ -14,8 +14,8 @@ import java.util.Random;
 import static java.awt.SystemColor.menu;
 
 public class Board {
-    public TownHall townHall_Player1 = new TownHall();
-    public TownHall townHall_Player2 = new TownHall();
+    public TownHall townHall_Player1 ;
+    public TownHall townHall_Player2 ;
 
     public Blocks s = new Blocks(1, 0);
     public static Blocks[][] grid = new Blocks[12][12];
@@ -101,6 +101,8 @@ MenuPanel menu = merge.getMenuPanel();
     }
 
     public void build_TownHall() {
+        townHall_Player1 = new TownHall();
+        townHall_Player2 = new TownHall();
 
         grid[1][1].setStructure(townHall_Player1);
         grid[10][10].setStructure(townHall_Player2);
@@ -218,12 +220,13 @@ MenuPanel menu = merge.getMenuPanel();
     }
 
     public boolean isGameOver() {
-        if (townHall_Player1.townhallisover()) {
-            return false;
-        } else if (townHall_Player2.townhallisover()) {
+        if(townHall_Player1 == null || townHall_Player2 == null) {
             return false;
         }
-        return true;
+        if (townHall_Player1.getHealth() <= 0 || townHall_Player2.getHealth() <= 0) {
+            return true;
+        }
+        return false;
     }
 
 
